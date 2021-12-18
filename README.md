@@ -1,2 +1,5 @@
 # Green Coder
-Unfinished Code Editor made in Sketchware
+A coder editor which isn't released yet 😅!
+
+# License
+
