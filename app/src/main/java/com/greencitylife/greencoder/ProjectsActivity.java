@@ -295,7 +295,9 @@ public class ProjectsActivity extends Activity {
 	
 	
 	private void _settings () {
-		SketchwareUtil.showMessage(getApplicationContext(), "Soon");
+		i.setClass(getApplicationContext(), SettingsActivity.class);
+		startActivity(i);
+		finish();
 	}
 	
 	

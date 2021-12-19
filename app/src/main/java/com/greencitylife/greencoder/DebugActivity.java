@@ -77,15 +77,6 @@ public class DebugActivity extends Activity {
 		});
 	}
 	private void initializeLogic() {
-		{
-			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
-			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
-			SketchUi.setColor(0xFFFFFFFF);
-			SketchUi.setCornerRadius(d*56);
-			SketchUi.setStroke(d*10,0xFF4CAF50);
-			edittext1.setElevation(d*5);
-			edittext1.setBackground(SketchUi);
-		}
 		textview3.setText(getIntent().getStringExtra("error"));
 		is_expanded = false;
 		linear3.setVisibility(View.GONE);

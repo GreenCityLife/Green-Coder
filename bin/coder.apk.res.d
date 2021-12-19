@@ -7,6 +7,7 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/create_file.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/navigate_item.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/project_item.xml \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/settings.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/app_icon.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/default_image.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/app_image.png \
@@ -19,6 +20,12 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/plant_error.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_arrow_expand.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_arrow_unexpand.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_close_white.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/img.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_edit_white.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_email_white.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_lock_outline_white.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_exit_to_app_white.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/styles.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/colors.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/strings.xml \

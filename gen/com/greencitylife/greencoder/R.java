@@ -27,12 +27,22 @@ public final class R {
         public static int ic_arrow_expand=0x7f020006;
         public static int ic_arrow_unexpand=0x7f020007;
         public static int ic_back=0x7f020008;
-        public static int ic_navigate=0x7f020009;
-        public static int ic_save=0x7f02000a;
-        public static int plant_error=0x7f02000b;
+        public static int ic_close_white=0x7f020009;
+        public static int ic_edit_white=0x7f02000a;
+        public static int ic_email_white=0x7f02000b;
+        public static int ic_exit_to_app_white=0x7f02000c;
+        public static int ic_lock_outline_white=0x7f02000d;
+        public static int ic_navigate=0x7f02000e;
+        public static int ic_save=0x7f02000f;
+        public static int img=0x7f020010;
+        public static int plant_error=0x7f020011;
     }
     public static final class id {
+        public static int clog=0x7f07001e;
         public static int edittext1=0x7f070001;
+        public static int force_crash=0x7f070017;
+        public static int git_repo=0x7f070011;
+        public static int help=0x7f070014;
         public static int imageview1=0x7f070009;
         public static int imageview2=0x7f07000a;
         public static int linear1=0x7f070000;
@@ -40,10 +50,26 @@ public final class R {
         public static int linear3=0x7f070005;
         public static int linear_nopro=0x7f07000c;
         public static int listview1=0x7f07000b;
+        public static int project_path=0x7f07000d;
+        public static int report_bug=0x7f07000e;
         public static int textview1=0x7f070002;
+        public static int textview10=0x7f070016;
+        public static int textview11=0x7f070018;
+        public static int textview12=0x7f070019;
+        public static int textview13=0x7f07001a;
+        public static int textview14=0x7f07001c;
+        public static int textview15=0x7f07001d;
+        public static int textview16=0x7f07001f;
+        public static int textview17=0x7f070020;
         public static int textview2=0x7f070003;
         public static int textview3=0x7f070006;
         public static int textview4=0x7f070007;
+        public static int textview5=0x7f07000f;
+        public static int textview6=0x7f070010;
+        public static int textview7=0x7f070012;
+        public static int textview8=0x7f070013;
+        public static int textview9=0x7f070015;
+        public static int version=0x7f07001b;
         public static int vscroll1=0x7f070008;
     }
     public static final class layout {
@@ -55,6 +81,7 @@ public final class R {
         public static int navigate_item=0x7f030005;
         public static int project_item=0x7f030006;
         public static int projects=0x7f030007;
+        public static int settings=0x7f030008;
     }
     public static final class string {
         public static int app_name=0x7f050000;

@@ -44,6 +44,11 @@
 			android:screenOrientation="portrait"
 			android:windowSoftInputMode="stateHidden"/>
 		<activity
+			android:name=".SettingsActivity"
+			android:configChanges="orientation|screenSize"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"/>
+		<activity
 			android:name=".DebugActivity"
 			android:screenOrientation="portrait"/>
 		<uses-library
