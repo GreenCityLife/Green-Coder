@@ -1,3 +1,4 @@
+![App Icon](https://github.com/GreenCityLife/Green-Coder/blob/master/app/src/main/res/drawable-xhdpi/app_image.png) 
 # Green Coder
 A code editor which isn't released yet 😅!
 
