@@ -1,5 +1,5 @@
 # Green Coder
-A coder editor which isn't released yet 😅!
+A code editor which isn't released yet 😅!
 
 ## TODO List
 I have more goals but unable to do it because of my abilities but i never give up!
