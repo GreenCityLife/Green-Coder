@@ -1,0 +1,43 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/linear1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:background="#212121"
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/textview1"
+			android:focusable="false"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:padding="8dp"
+			android:text="New Project 1"
+			android:textSize="14sp"
+			android:textColor="#FFFFFF"/>
+		<TextView
+			android:id="@+id/textview2"
+			android:focusable="false"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:padding="8dp"
+			android:text="/storage/emulated/0/newproject1"
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"/>
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/linear2"
+		android:layout_width="match_parent"
+		android:layout_height="25dp"
+		android:padding="8dp"
+		android:background="#000000"
+		android:orientation="horizontal"/>
+</LinearLayout>
