@@ -6,30 +6,6 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 	<LinearLayout
-		android:id="@+id/linear1"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:padding="8dp"
-		android:background="#000000"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
-		<TextView
-			android:id="@+id/textview1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:text="My Projects"
-			android:textSize="16sp"
-			android:textColor="#FFFFFF"
-			android:layout_weight="1"/>
-		<ImageView
-			android:id="@+id/imageview1"
-			android:layout_width="35dp"
-			android:layout_height="35dp"
-			android:src="@drawable/ic_add"
-			android:scaleType="fitXY"/>
-	</LinearLayout>
-	<LinearLayout
 		android:id="@+id/linear2"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -63,7 +39,7 @@
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				android:gravity="center_horizontal"
-				android:text="Oops, looks like we lost your projects! Try creating one by clicking + icon on top right corner"
+				android:text="Oops, looks like we lost your projects! Creating a project or changing project's path might help"
 				android:textSize="14sp"
 				android:textColor="#FFFFFF"/>
 		</LinearLayout>

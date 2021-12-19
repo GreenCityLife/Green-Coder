@@ -20,16 +20,15 @@ import java.text.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.content.Intent;
 import android.content.ClipData;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.view.View;
 import android.widget.AdapterView;
 import android.graphics.Typeface;
 import com.google.gson.Gson;
@@ -48,10 +47,7 @@ public class ProjectsActivity extends Activity {
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	
-	private LinearLayout linear1;
 	private LinearLayout linear2;
-	private TextView textview1;
-	private ImageView imageview1;
 	private ListView listview1;
 	private LinearLayout linear_nopro;
 	private ImageView imageview2;
@@ -88,10 +84,7 @@ public class ProjectsActivity extends Activity {
 	
 	private void initialize(Bundle _savedInstanceState) {
 		
-		linear1 = (LinearLayout) findViewById(R.id.linear1);
 		linear2 = (LinearLayout) findViewById(R.id.linear2);
-		textview1 = (TextView) findViewById(R.id.textview1);
-		imageview1 = (ImageView) findViewById(R.id.imageview1);
 		listview1 = (ListView) findViewById(R.id.listview1);
 		linear_nopro = (LinearLayout) findViewById(R.id.linear_nopro);
 		imageview2 = (ImageView) findViewById(R.id.imageview2);
@@ -99,13 +92,6 @@ public class ProjectsActivity extends Activity {
 		directoryChooser.setType("*/*");
 		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		sp = getSharedPreferences("sp", Activity.MODE_PRIVATE);
-		
-		imageview1.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				_create_dialog();
-			}
-		});
 		
 		listview1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
@@ -118,10 +104,43 @@ public class ProjectsActivity extends Activity {
 		});
 	}
 	private void initializeLogic() {
-		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		
 		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		getWindow().setNavigationBarColor(0xFF000000);
 		getWindow().setStatusBarColor(0xFF000000);
+		getActionBar().setElevation(0);
+		getActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#000000")));
+	}
+	@Override
+		public boolean onCreateOptionsMenu(Menu menu){
+				menu.add(0, 0, 0, "Create Project");
+				menu.add(0, 1, 0, "Settings");
+		     menu.add(0, 2, 0, "Exit");
+				return super.onCreateOptionsMenu(menu);
+	}
+	@Override
+	  public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()){
+			
+			   case 0:
+			
+			_create_dialog();
+			
+			   return true;
+				case 1:
+			
+			_settings();
+			
+			   return true;
+			   case 2:
+			
+			_exit();
+			
+			   return true;
+			
+		}
+		
+		return true;
 	}
 	
 	@Override
@@ -272,6 +291,16 @@ public class ProjectsActivity extends Activity {
 		} else { 
 			return java.io.File.separator; 
 		} 
+	}
+	
+	
+	private void _settings () {
+		SketchwareUtil.showMessage(getApplicationContext(), "Soon");
+	}
+	
+	
+	private void _exit () {
+		finishAffinity();
 	}
 	
 	
