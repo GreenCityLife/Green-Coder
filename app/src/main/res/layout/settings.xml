@@ -236,7 +236,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:padding="8dp"
-					android:text="0.1.0 alpha"
+					android:text="0.0"
 					android:textSize="12sp"
 					android:textColor="#9E9E9E"
 					android:alpha="0.6"/>

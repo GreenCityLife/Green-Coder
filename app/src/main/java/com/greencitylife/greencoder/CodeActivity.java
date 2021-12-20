@@ -165,9 +165,7 @@ public class CodeActivity extends Activity {
 				directory = FileUtil.getExternalStorageDir() + "/" + getDocumentPathFromTreeUri(_data.getData());
 				path = "";
 				if (!FileUtil.isExistFile(directory)) {
-					directory = directory.replace("/storage/emulated/0/", "/storage/143A-B90B/");
-					setTitle("SD Card");
-					_activity(directory);
+					SketchwareUtil.showMessage(getApplicationContext(), "Error finding path");
 				}
 				else {
 					setTitle("Internal Storage");
@@ -197,10 +195,7 @@ public class CodeActivity extends Activity {
 					path =getFilePath(this, _data.getData());
 					directory = "";
 					if (!FileUtil.isExistFile(path)) {
-						path = path.replace("/storage/emulated/0/", "/storage/143A-B90B/");
-						setTitle(Uri.parse(path).getLastPathSegment());
-						_activity(path);
-						edittext1.setText(FileUtil.readFile(path));
+						SketchwareUtil.showMessage(getApplicationContext(), "Error finding path");
 					}
 					else {
 						setTitle(Uri.parse(path).getLastPathSegment());

@@ -165,15 +165,17 @@ public class ProjectsActivity extends Activity {
 				Uri uri = _data.getData();
 				path = FileUtil.getExternalStorageDir() + "/" + getDocumentPathFromTreeUri(_data.getData());
 				if (!FileUtil.isExistFile(path)) {
-					path = path.replace("/storage/emulated/0/", "/storage/143A-B90B/");
+					SketchwareUtil.showMessage(getApplicationContext(), "Error when creating new project");
 				}
-				add_project = new HashMap<>();
-				add_project.put("name", name);
-				add_project.put("path", path);
-				FileUtil.writeFile(path.concat("/index.json"), default_settings);
-				projects.add(add_project);
-				sp.edit().putString("projectbackup", new Gson().toJson(projects)).commit();
-				((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+				else {
+					add_project = new HashMap<>();
+					add_project.put("name", name);
+					add_project.put("path", path);
+					FileUtil.writeFile(path.concat("/index.json"), default_settings);
+					projects.add(add_project);
+					sp.edit().putString("projectbackup", new Gson().toJson(projects)).commit();
+					((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+				}
 			}
 			else {
 				

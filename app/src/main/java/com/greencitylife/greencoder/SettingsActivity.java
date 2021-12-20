@@ -22,11 +22,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.Intent;
 import android.net.Uri;
+import android.content.ClipData;
 import android.view.View;
 import android.graphics.Typeface;
+import android.Manifest;
+import android.content.pm.PackageManager;
 
 public class SettingsActivity extends Activity {
 	
+	public final int REQ_CD_DIRECTORYCHOOSER = 101;
+	
+	private String projects_path = "";
+	private String versionName = "";
+	private String versionCode = "";
 	
 	private ScrollView vscroll1;
 	private LinearLayout linear1;
@@ -56,12 +64,30 @@ public class SettingsActivity extends Activity {
 	private TextView textview17;
 	
 	private Intent i = new Intent();
+	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.settings);
 		initialize(_savedInstanceState);
-		initializeLogic();
+		if (Build.VERSION.SDK_INT >= 23) {
+			if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+				requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+			}
+			else {
+				initializeLogic();
+			}
+		}
+		else {
+			initializeLogic();
+		}
+	}
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == 1000) {
+			initializeLogic();
+		}
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -92,18 +118,22 @@ public class SettingsActivity extends Activity {
 		textview15 = (TextView) findViewById(R.id.textview15);
 		textview16 = (TextView) findViewById(R.id.textview16);
 		textview17 = (TextView) findViewById(R.id.textview17);
+		directoryChooser.setType("*/*");
+		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		
 		project_path.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				_chooseDirectory();
 			}
 		});
 		
 		report_bug.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				i.setAction(Intent.ACTION_VIEW);
+				i.setData(Uri.parse("https://github.com/GreenCityLife/Green-Coder/issues"));
+				startActivity(i);
 			}
 		});
 		
@@ -156,6 +186,16 @@ public class SettingsActivity extends Activity {
 		_rippleRoundStroke(force_crash, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(version, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(clog, "#212121", "#e0e0e0", 0, 0, "#212121");
+		String versionName = "null";
+		int versionCode = -1;
+		try {
+			android.content.pm.PackageInfo packageInfo = SettingsActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
+			versionName = packageInfo.versionName;
+			versionCode = packageInfo.versionCode;
+		} catch (android.content.pm.PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		textview15.setText(versionName);
 	}
 	
 	@Override
@@ -163,7 +203,28 @@ public class SettingsActivity extends Activity {
 		super.onActivityResult(_requestCode, _resultCode, _data);
 		
 		switch (_requestCode) {
-			
+			case REQ_CD_DIRECTORYCHOOSER:
+			if (_resultCode == Activity.RESULT_OK) {
+				ArrayList<String> _filePath = new ArrayList<>();
+				if (_data != null) {
+					if (_data.getClipData() != null) {
+						for (int _index = 0; _index < _data.getClipData().getItemCount(); _index++) {
+							ClipData.Item _item = _data.getClipData().getItemAt(_index);
+							_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _item.getUri()));
+						}
+					}
+					else {
+						_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _data.getData()));
+					}
+				}
+				Uri uri = _data.getData();
+				projects_path = FileUtil.getExternalStorageDir() + "/" + getDocumentPathFromTreeUri(_data.getData());
+				textview3.setText(projects_path);
+			}
+			else {
+				
+			}
+			break;
 			default:
 			break;
 		}
@@ -208,6 +269,46 @@ public class SettingsActivity extends Activity {
 	
 	private void _throwError (final String _text) {
 		throw new IllegalStateException(_text);
+	}
+	
+	
+	private void _chooseDirectory () {
+		directoryChooser = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+		directoryChooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		directoryChooser.addCategory(Intent.CATEGORY_DEFAULT);
+		startActivityForResult(Intent.createChooser(directoryChooser,"Choose Directory"), REQ_CD_DIRECTORYCHOOSER);
+	}
+	private String getFileName(Uri uri) throws IllegalArgumentException { 
+		// Obtain a cursor with information regarding this uri
+		android.database.Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+		 if (cursor.getCount() <= 0) { 
+			cursor.close(); 
+			throw new IllegalArgumentException("Can't obtain file name, cursor is empty"); 
+		} 
+		cursor.moveToFirst(); 
+		String fileName = cursor.getString(cursor.getColumnIndexOrThrow(android.provider.OpenableColumns.DISPLAY_NAME)); 
+		cursor.close(); 
+		return fileName;
+		 }
+	
+	private String getRealPathFromURI(Uri contentURI) { 
+		String result = "";
+		 android.database.Cursor cursor = getContentResolver().query(contentURI, null, null, null, null); 
+		if (cursor == null) { 
+			// Source is Dropbox or other similar local file path result = contentURI.getPath(); 
+		} else { cursor.moveToFirst(); int idx = cursor.getColumnIndex(android.provider.MediaStore.Images.ImageColumns.DATA);
+			 result = cursor.getString(idx);
+			 cursor.close(); 
+		} return result; 
+	}
+	private String getDocumentPathFromTreeUri(final Uri treeUri) {
+		 final String docId = android.provider. DocumentsContract.getTreeDocumentId(treeUri); 
+		final String[] split = docId.split(":");
+		 if ((split.length >= 2) && (split[1] != null)) { 
+			return split[1]; 
+		} else { 
+			return java.io.File.separator; 
+		} 
 	}
 	
 	
