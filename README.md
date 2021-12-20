@@ -1,6 +1,6 @@
 ![App Icon](https://github.com/GreenCityLife/Green-Coder/blob/master/app/src/main/res/drawable-xhdpi/app_image.png) 
 # Green Coder
-A code editor which isn't released yet 😅!
+A code editor which is made in Sketchware. Note: it is in it's alpha stages!
 
 ## TODO List
 I have more goals but unable to do it because of my abilities but i never give up!
@@ -13,9 +13,9 @@ I have more goals but unable to do it because of my abilities but i never give u
 As i said in description, I'm making green coder in pure **vannila sketchware v3.10.0**. My only goal is to make advanced Code editor with outdated sketchware!
 
 ## Installation
-Green Coder isn't released yet (even one version), ~~So no way to download~~. 
+It is recommended to use [latest version](https://github.com/GreenCityLife/Green-Coder/releases). You should only report bugs for latest version.
 
-Wait a minute, There is [Coder.apk](bin/coder.apk?raw=true) in bin folder. Uh, Apk leaked unfortunately 😳 but **i won't recommend downloading it as it may contain bugs**. Download it on your own risk and help finding out bugs to repair them!
+There is [Coder.apk](bin/coder.apk?raw=true) in bin folder if you want to get latest features before release which is updated after every commit. Download it on your own risk and help finding out bugs to repair them!
 
 ## License
 Licensed under [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). Check [LICENSE](LICENSE) for more details
