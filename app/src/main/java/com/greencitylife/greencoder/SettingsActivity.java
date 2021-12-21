@@ -191,7 +191,7 @@ public class SettingsActivity extends AppCompatActivity {
 		_Font();
 		getWindow().setNavigationBarColor(0xFF212121);
 		setTitle("Settings");
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		_rippleRoundStroke(project_path, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(report_bug, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(git_repo, "#212121", "#e0e0e0", 0, 0, "#212121");

@@ -107,7 +107,8 @@ public class CodeActivity extends AppCompatActivity {
 		newfile = "This is newly created file! Change me to whatever you want from Green Coder app";
 		getWindow().setStatusBarColor(0xFF212121);
 		getWindow().setNavigationBarColor(0xFF212121);
-		getActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#212121")));
+		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#212121")));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		_srt(edittext1);
 	}
 	@Override

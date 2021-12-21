@@ -120,12 +120,13 @@ public class ProjectsActivity extends AppCompatActivity {
 		});
 	}
 	private void initializeLogic() {
-		
+		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		getWindow().setNavigationBarColor(0xFF000000);
 		getWindow().setStatusBarColor(0xFF000000);
-		getActionBar().setElevation(0);
-		getActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#000000")));
+		getSupportActionBar().setElevation(0);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#000000")));
 	}
 	@Override
 		public boolean onCreateOptionsMenu(Menu menu){
