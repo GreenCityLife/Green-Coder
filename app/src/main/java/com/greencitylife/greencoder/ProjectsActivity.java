@@ -1,6 +1,8 @@
 package com.greencitylife.greencoder;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.app.*;
 import android.os.*;
 import android.view.*;
@@ -26,20 +28,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
-import android.content.ClipData;
-import android.content.SharedPreferences;
 import android.net.Uri;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.widget.AdapterView;
+import android.view.View;
 import android.graphics.Typeface;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import android.Manifest;
-import android.content.pm.PackageManager;
 
-public class ProjectsActivity extends Activity {
+public class ProjectsActivity extends AppCompatActivity {
 	
-	public final int REQ_CD_DIRECTORYCHOOSER = 101;
 	
+	private Toolbar _toolbar;
+	private FloatingActionButton _fab;
 	private HashMap<String, Object> add_project = new HashMap<>();
 	private String name = "";
 	private String path = "";
@@ -53,53 +55,67 @@ public class ProjectsActivity extends Activity {
 	private ImageView imageview2;
 	private TextView textview2;
 	
-	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
-	private SharedPreferences sp;
 	private Intent i = new Intent();
+	private AlertDialog.Builder confirmation;
+	private SharedPreferences file;
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.projects);
 		initialize(_savedInstanceState);
-		if (Build.VERSION.SDK_INT >= 23) {
-			if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-			|| checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-				requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-			}
-			else {
-				initializeLogic();
-			}
-		}
-		else {
-			initializeLogic();
-		}
-	}
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
+		
+		_toolbar = (Toolbar) findViewById(R.id._toolbar);
+		setSupportActionBar(_toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _v) {
+				onBackPressed();
+			}
+		});
+		_fab = (FloatingActionButton) findViewById(R.id._fab);
 		
 		linear2 = (LinearLayout) findViewById(R.id.linear2);
 		listview1 = (ListView) findViewById(R.id.listview1);
 		linear_nopro = (LinearLayout) findViewById(R.id.linear_nopro);
 		imageview2 = (ImageView) findViewById(R.id.imageview2);
 		textview2 = (TextView) findViewById(R.id.textview2);
-		directoryChooser.setType("*/*");
-		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-		sp = getSharedPreferences("sp", Activity.MODE_PRIVATE);
+		confirmation = new AlertDialog.Builder(this);
+		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		
 		listview1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
-				projects.remove((int)(_position));
-				((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+				confirmation.setTitle("Confirm Delete?");
+				confirmation.setMessage("Are you sure, you wanna delete this project? It also deleted the whole code");
+				confirmation.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						projects.remove((int)(_position));
+						((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+					}
+				});
+				confirmation.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						
+					}
+				});
+				confirmation.create().show();
 				return true;
+			}
+		});
+		
+		_fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				_create_dialog();
 			}
 		});
 	}
@@ -148,39 +164,7 @@ public class ProjectsActivity extends Activity {
 		super.onActivityResult(_requestCode, _resultCode, _data);
 		
 		switch (_requestCode) {
-			case REQ_CD_DIRECTORYCHOOSER:
-			if (_resultCode == Activity.RESULT_OK) {
-				ArrayList<String> _filePath = new ArrayList<>();
-				if (_data != null) {
-					if (_data.getClipData() != null) {
-						for (int _index = 0; _index < _data.getClipData().getItemCount(); _index++) {
-							ClipData.Item _item = _data.getClipData().getItemAt(_index);
-							_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _item.getUri()));
-						}
-					}
-					else {
-						_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _data.getData()));
-					}
-				}
-				Uri uri = _data.getData();
-				path = FileUtil.getExternalStorageDir() + "/" + getDocumentPathFromTreeUri(_data.getData());
-				if (!FileUtil.isExistFile(path)) {
-					SketchwareUtil.showMessage(getApplicationContext(), "Error when creating new project");
-				}
-				else {
-					add_project = new HashMap<>();
-					add_project.put("name", name);
-					add_project.put("path", path);
-					FileUtil.writeFile(path.concat("/index.json"), default_settings);
-					projects.add(add_project);
-					sp.edit().putString("projectbackup", new Gson().toJson(projects)).commit();
-					((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
-				}
-			}
-			else {
-				
-			}
-			break;
+			
 			default:
 			break;
 		}
@@ -189,23 +173,7 @@ public class ProjectsActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (!sp.getString("projectbackup", "").equals("")) {
-			linear_nopro.setVisibility(View.GONE);
-			listview1.setVisibility(View.VISIBLE);
-			projects = new Gson().fromJson(sp.getString("projectbackup", ""), new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
-			listview1.setAdapter(new Listview1Adapter(projects));
-			((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
-		}
-		else {
-			listview1.setVisibility(View.GONE);
-			linear_nopro.setVisibility(View.VISIBLE);
-		}
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		sp.edit().putString("projectbackup", new Gson().toJson(projects)).commit();
+		
 	}
 	private void _create_dialog () {
 		final AlertDialog create = new AlertDialog.Builder(ProjectsActivity.this).create();
@@ -243,7 +211,6 @@ public class ProjectsActivity extends Activity {
 		ok.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				if (!input.getText().toString().equals("")) {
 					name = input.getText().toString();
-					_chooseDirectory();
 					create.dismiss();
 				} else {
 					SketchwareUtil.showMessage(getApplicationContext(), "Empty File Name");
@@ -253,46 +220,6 @@ public class ProjectsActivity extends Activity {
 				create.dismiss();
 			} });
 		create.show();
-	}
-	
-	
-	private void _chooseDirectory () {
-		directoryChooser = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-		directoryChooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-		directoryChooser.addCategory(Intent.CATEGORY_DEFAULT);
-		startActivityForResult(Intent.createChooser(directoryChooser,"Choose Directory"), REQ_CD_DIRECTORYCHOOSER);
-	}
-	private String getFileName(Uri uri) throws IllegalArgumentException { 
-		// Obtain a cursor with information regarding this uri
-		android.database.Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-		 if (cursor.getCount() <= 0) { 
-			cursor.close(); 
-			throw new IllegalArgumentException("Can't obtain file name, cursor is empty"); 
-		} 
-		cursor.moveToFirst(); 
-		String fileName = cursor.getString(cursor.getColumnIndexOrThrow(android.provider.OpenableColumns.DISPLAY_NAME)); 
-		cursor.close(); 
-		return fileName;
-		 }
-	
-	private String getRealPathFromURI(Uri contentURI) { 
-		String result = "";
-		 android.database.Cursor cursor = getContentResolver().query(contentURI, null, null, null, null); 
-		if (cursor == null) { 
-			// Source is Dropbox or other similar local file path result = contentURI.getPath(); 
-		} else { cursor.moveToFirst(); int idx = cursor.getColumnIndex(android.provider.MediaStore.Images.ImageColumns.DATA);
-			 result = cursor.getString(idx);
-			 cursor.close(); 
-		} return result; 
-	}
-	private String getDocumentPathFromTreeUri(final Uri treeUri) {
-		 final String docId = android.provider. DocumentsContract.getTreeDocumentId(treeUri); 
-		final String[] split = docId.split(":");
-		 if ((split.length >= 2) && (split[1] != null)) { 
-			return split[1]; 
-		} else { 
-			return java.io.File.separator; 
-		} 
 	}
 	
 	

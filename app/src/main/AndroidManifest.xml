@@ -13,7 +13,6 @@
 		<activity
 			android:name=".MainActivity"
 			android:configChanges="orientation|screenSize"
-			android:theme="@style/NoActionBar"
 			android:screenOrientation="portrait"
 			android:windowSoftInputMode="stateHidden">
 			<intent-filter>
@@ -29,7 +28,6 @@
 		<activity
 			android:name=".NavigateActivity"
 			android:configChanges="orientation|screenSize"
-			android:theme="@style/NoActionBar"
 			android:screenOrientation="portrait"
 			android:windowSoftInputMode="stateHidden"/>
 		<activity
@@ -40,7 +38,6 @@
 		<activity
 			android:name=".DebugActivity"
 			android:configChanges="orientation|screenSize"
-			android:theme="@style/NoActionBar"
 			android:screenOrientation="portrait"
 			android:windowSoftInputMode="stateHidden"/>
 		<activity

@@ -1,6 +1,7 @@
 package com.greencitylife.greencoder;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.app.*;
 import android.os.*;
 import android.view.*;
@@ -23,15 +24,20 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.net.Uri;
 import android.content.ClipData;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.graphics.Typeface;
+import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends AppCompatActivity {
 	
 	public final int REQ_CD_DIRECTORYCHOOSER = 101;
 	
+	private Toolbar _toolbar;
 	private String projects_path = "";
 	private String versionName = "";
 	private String versionCode = "";
@@ -65,18 +71,14 @@ public class SettingsActivity extends Activity {
 	
 	private Intent i = new Intent();
 	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
+	private SharedPreferences file;
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.settings);
 		initialize(_savedInstanceState);
-		if (Build.VERSION.SDK_INT >= 23) {
-			if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-				requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
-			}
-			else {
-				initializeLogic();
-			}
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
 		}
 		else {
 			initializeLogic();
@@ -92,6 +94,16 @@ public class SettingsActivity extends Activity {
 	
 	private void initialize(Bundle _savedInstanceState) {
 		
+		_toolbar = (Toolbar) findViewById(R.id._toolbar);
+		setSupportActionBar(_toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _v) {
+				onBackPressed();
+			}
+		});
 		vscroll1 = (ScrollView) findViewById(R.id.vscroll1);
 		linear1 = (LinearLayout) findViewById(R.id.linear1);
 		textview1 = (TextView) findViewById(R.id.textview1);
@@ -120,6 +132,7 @@ public class SettingsActivity extends Activity {
 		textview17 = (TextView) findViewById(R.id.textview17);
 		directoryChooser.setType("*/*");
 		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		
 		project_path.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -220,6 +233,7 @@ public class SettingsActivity extends Activity {
 				Uri uri = _data.getData();
 				projects_path = FileUtil.getExternalStorageDir() + "/" + getDocumentPathFromTreeUri(_data.getData());
 				textview3.setText(projects_path);
+				file.edit().putString("path", projects_path).commit();
 			}
 			else {
 				
@@ -235,6 +249,15 @@ public class SettingsActivity extends Activity {
 		i.setClass(getApplicationContext(), ProjectsActivity.class);
 		startActivity(i);
 		finish();
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		if (!file.getString("path", "").equals("")) {
+			projects_path = file.getString("path", "");
+			textview3.setText(projects_path);
+		}
 	}
 	private void _Font () {
 		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);

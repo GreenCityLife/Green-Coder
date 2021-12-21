@@ -1,6 +1,6 @@
 package com.greencitylife.greencoder;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.app.*;
 import android.os.*;
 import android.view.*;
@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.view.View;
 
-public class DebugActivity extends Activity {
+public class DebugActivity extends AppCompatActivity {
 	
 	
 	private boolean is_expanded = false;

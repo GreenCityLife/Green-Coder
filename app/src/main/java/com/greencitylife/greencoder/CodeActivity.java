@@ -1,6 +1,7 @@
 package com.greencitylife.greencoder;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.app.*;
 import android.os.*;
 import android.view.*;
@@ -22,16 +23,20 @@ import android.widget.EditText;
 import android.content.Intent;
 import android.content.ClipData;
 import android.net.Uri;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 
-public class CodeActivity extends Activity {
+public class CodeActivity extends AppCompatActivity {
 	
 	public final int REQ_CD_DIRECTORYCHOOSER = 101;
 	public final int REQ_CD_FILECHOOSER = 102;
 	
+	private Toolbar _toolbar;
 	private String directory = "";
 	private String path = "";
 	private String newfile = "";
@@ -49,14 +54,9 @@ public class CodeActivity extends Activity {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.code);
 		initialize(_savedInstanceState);
-		if (Build.VERSION.SDK_INT >= 23) {
-			if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-			|| checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-				requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-			}
-			else {
-				initializeLogic();
-			}
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
 		}
 		else {
 			initializeLogic();
@@ -72,6 +72,16 @@ public class CodeActivity extends Activity {
 	
 	private void initialize(Bundle _savedInstanceState) {
 		
+		_toolbar = (Toolbar) findViewById(R.id._toolbar);
+		setSupportActionBar(_toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _v) {
+				onBackPressed();
+			}
+		});
 		linear1 = (LinearLayout) findViewById(R.id.linear1);
 		edittext1 = (EditText) findViewById(R.id.edittext1);
 		directoryChooser.setType("*/*");

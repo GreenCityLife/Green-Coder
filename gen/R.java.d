@@ -1,1 +1,9 @@
 /storage/emulated/0/.sketchware/mysc/713/gen/com/greencitylife/greencoder/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/androidx/appcompat/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/androidx/core/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/androidx/appcompat/resources/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/androidx/coordinatorlayout/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/com/google/android/material/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/androidx/transition/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/androidx/cardview/R.java \
+/storage/emulated/0/.sketchware/mysc/713/gen/androidx/recyclerview/R.java \

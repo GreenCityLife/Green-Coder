@@ -1,6 +1,6 @@
 package com.greencitylife.greencoder;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.app.*;
 import android.os.*;
 import android.view.*;
@@ -24,10 +24,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 import android.content.Intent;
 import android.net.Uri;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 	
 	private Timer _timer = new Timer();
 	
@@ -43,7 +48,20 @@ public class MainActivity extends Activity {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.main);
 		initialize(_savedInstanceState);
-		initializeLogic();
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+		}
+		else {
+			initializeLogic();
+		}
+	}
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == 1000) {
+			initializeLogic();
+		}
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -73,6 +91,12 @@ public class MainActivity extends Activity {
 			}
 		};
 		_timer.schedule(t, (int)(2000));
+		if (file.getString("path", "").equals("")) {
+			file.edit().putString("path", FileUtil.getExternalStorageDir().concat("/Projects/")).commit();
+			if (!FileUtil.isExistFile(FileUtil.getExternalStorageDir().concat("/Projects/"))) {
+				FileUtil.makeDir(FileUtil.getExternalStorageDir().concat("/Projects/"));
+			}
+		}
 	}
 	
 	@Override
