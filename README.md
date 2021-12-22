@@ -1,6 +1,8 @@
 ![App Icon](https://github.com/GreenCityLife/Green-Coder/blob/master/app/src/main/res/drawable-xhdpi/app_image.png) 
 # Green Coder
-A code editor which is made in Sketchware. Note: it is in it's alpha stages!
+A code editor which is made in Sketchware.
+ 
+**Note: it is in it's alpha stages!**
 
 ## TODO List
 I have more goals but unable to do it because of my abilities but i never give up!
