@@ -18,6 +18,8 @@ import android.animation.*;
 import android.view.animation.*;
 import java.util.*;
 import java.text.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,7 +28,11 @@ import android.net.Uri;
 import android.content.ClipData;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.View;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import android.graphics.Typeface;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
@@ -41,6 +47,8 @@ public class SettingsActivity extends AppCompatActivity {
 	private String projects_path = "";
 	private String versionName = "";
 	private String versionCode = "";
+	
+	private ArrayList<HashMap<String, Object>> api_list = new ArrayList<>();
 	
 	private ScrollView vscroll1;
 	private LinearLayout linear1;
@@ -72,6 +80,9 @@ public class SettingsActivity extends AppCompatActivity {
 	private Intent i = new Intent();
 	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
 	private SharedPreferences file;
+	private RequestNetwork api;
+	private RequestNetwork.RequestListener _api_request_listener;
+	private AlertDialog.Builder dialog;
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -133,6 +144,8 @@ public class SettingsActivity extends AppCompatActivity {
 		directoryChooser.setType("*/*");
 		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
+		api = new RequestNetwork(this);
+		dialog = new AlertDialog.Builder(this);
 		
 		project_path.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -176,16 +189,74 @@ public class SettingsActivity extends AppCompatActivity {
 		version.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				api.startRequestNetwork(RequestNetworkController.GET, "https://raw.githubusercontent.com/GreenCityLife/Green-Coder/master/Server/info.json", "A", _api_request_listener);
 			}
 		});
 		
 		clog.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				api.startRequestNetwork(RequestNetworkController.GET, "https://raw.githubusercontent.com/GreenCityLife/Green-Coder/master/Server/info.json", "B", _api_request_listener);
 			}
 		});
+		
+		_api_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				try {
+					api_list = new Gson().fromJson(_response, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
+					if (_tag.equals("A")) {
+						if (versionName.equals(api_list.get((int)0).get("latest_version").toString())) {
+							dialog.setTitle("Version");
+							dialog.setMessage("You're using latest version. No worries!");
+							dialog.setPositiveButton("Okay!", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface _dialog, int _which) {
+									
+								}
+							});
+							dialog.create().show();
+						}
+						else {
+							dialog.setTitle("Version");
+							dialog.setMessage("You're either using old version or  early build version! If you're using old version, consider updating to latest version!");
+							dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface _dialog, int _which) {
+									i.setAction(Intent.ACTION_VIEW);
+									i.setData(Uri.parse(api_list.get((int)0).get("download_link").toString()));
+									startActivity(i);
+								}
+							});
+							
+							dialog.create().show();
+						}
+					}
+					if (_tag.equals("B")) {
+						dialog.setTitle("Changelog");
+						dialog.setMessage(api_list.get((int)0).get("changelog").toString());
+						dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface _dialog, int _which) {
+								
+							}
+						});
+						dialog.create().show();
+					}
+				} catch (Exception e) {
+					SketchwareUtil.showMessage(getApplicationContext(), "invalid json request!");
+				}
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				SketchwareUtil.showMessage(getApplicationContext(), _message);
+			}
+		};
 	}
 	private void initializeLogic() {
 		_Font();
@@ -209,6 +280,7 @@ public class SettingsActivity extends AppCompatActivity {
 			e.printStackTrace();
 		}
 		textview15.setText(versionName);
+		setTheme(android.R.style.Theme_Material);
 	}
 	
 	@Override

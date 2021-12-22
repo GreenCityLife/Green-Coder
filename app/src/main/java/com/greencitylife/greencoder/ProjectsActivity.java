@@ -127,6 +127,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		getSupportActionBar().setElevation(0);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#000000")));
+		setTheme(android.R.style.Theme_Material);
 	}
 	@Override
 		public boolean onCreateOptionsMenu(Menu menu){
@@ -174,7 +175,12 @@ public class ProjectsActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+		if (true) {
+			
+		}
+		else {
+			
+		}
 	}
 	private void _create_dialog () {
 		final AlertDialog create = new AlertDialog.Builder(ProjectsActivity.this).create();
