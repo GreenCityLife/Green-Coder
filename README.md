@@ -1,5 +1,7 @@
-![App Icon](https://github.com/GreenCityLife/Green-Coder/blob/master/app/src/main/res/drawable-xhdpi/app_image.png) 
+<img src="app/src/main/res/drawable-xhdpi/app_image.png" align="left" height="100px" width="100px">
+
 # Green Coder
+<br>
 A code editor which is made in Sketchware.
  
 **Note: it is in it's alpha stages!**
