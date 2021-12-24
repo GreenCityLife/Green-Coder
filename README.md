@@ -1,7 +1,9 @@
 <img src="Server/app_icon.png/" align="left" height="100px" width="100px">
 
 # Green Coder
+![​GitHub commit activity​](https://img.shields.io/github/commit-activity/m/GreenCityLife/Green-Coder)
 <br />
+
 A code editor which is made in Sketchware.
  
 **Note: it is in it's alpha stages!**
