@@ -303,7 +303,9 @@ public class SettingsActivity extends AppCompatActivity {
 					}
 				}
 				Uri uri = _data.getData();
-				projects_path = FileUtil.getExternalStorageDir() + "/" + getDocumentPathFromTreeUri(_data.getData());
+				projects_path = uri.getPath();
+				projects_path = projects_path.replace("tree", "storage");
+				projects_path = projects_path.replace(":", "/");
 				textview3.setText(projects_path);
 				file.edit().putString("path", projects_path).commit();
 			}
