@@ -2,6 +2,8 @@
 
 # Green Coder
 ![​GitHub commit activity​](https://img.shields.io/github/commit-activity/m/GreenCityLife/Green-Coder)
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <br />
 
 A code editor which is made in Sketchware.
