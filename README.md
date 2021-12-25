@@ -14,7 +14,7 @@ A code editor which is made in Sketchware. This is a big project which is unfini
 
 ## Screenshots
 ![ScreeenShot 1](Server/Screenshot_20211225-083324.png)
-<h4 align="center">Settings Activity</h4>
+<p align="center">Settings Activity</p>
 
 ## TODO List
 I have more goals but unable to do it because of my abilities but i never give up!
