@@ -13,8 +13,11 @@ A code editor which is made in Sketchware. This is a big project which is unfini
 **Note: it is in it's alpha stages!**
 
 ## Screenshots
-![ScreeenShot 1](Server/Screenshot_20211225-083324.png)
-<p align="center">Settings Activity</p>
+<img src="Server/Screenshot_20211225-083324.png" align="center">
+<b><p align="center">Settings Activity</p></b>
+
+<img src="Server/Screenshot_20211225-111937.jpg" align="center">
+<b><p align="center">Home Activity</p></b>
 
 ## TODO List
 I have more goals but unable to do it because of my abilities but i never give up!
