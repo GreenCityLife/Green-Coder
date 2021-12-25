@@ -27,7 +27,7 @@ I have more goals but unable to do it because of my abilities but i never give u
 - [ ] Advanced projects manager
 
 ## Resources
-As i said in description, I'm making green coder in pure **vannila sketchware v3.10.0**. My only goal is to make advanced Code editor with outdated sketchware!
+As i said in description, I'm making green coder in pure **vannila sketchware v3.10.0**. My only goal is to make advanced Code editor with orginal sketchware!
 
 ## Installation
 It is recommended to use [latest version](https://github.com/GreenCityLife/Green-Coder/releases). You should only report bugs for latest version.
