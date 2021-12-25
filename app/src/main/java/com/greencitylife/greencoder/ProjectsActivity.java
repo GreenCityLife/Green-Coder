@@ -36,6 +36,10 @@ import android.content.SharedPreferences;
 import android.widget.AdapterView;
 import android.view.View;
 import android.graphics.Typeface;
+import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
 
 public class ProjectsActivity extends AppCompatActivity {
 	
@@ -46,8 +50,10 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String name = "";
 	private String path = "";
 	private String default_settings = "";
+	private double pos_af = 0;
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
+	private ArrayList<String> all_files = new ArrayList<>();
 	
 	private LinearLayout linear2;
 	private ListView listview1;
@@ -63,7 +69,19 @@ public class ProjectsActivity extends AppCompatActivity {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.projects);
 		initialize(_savedInstanceState);
-		initializeLogic();
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+		}
+		else {
+			initializeLogic();
+		}
+	}
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == 1000) {
+			initializeLogic();
+		}
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -175,11 +193,13 @@ public class ProjectsActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (!"".equals("")) {
-			
-		}
-		else {
-			
+		if (!file.getString("path", "").equals("")) {
+			if (FileUtil.isExistFile(file.getString("path", "").trim())) {
+				_refresh();
+			}
+			else {
+				SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't find projects! path doesn't exists");
+			}
 		}
 	}
 	private void _create_dialog () {
@@ -239,6 +259,25 @@ public class ProjectsActivity extends AppCompatActivity {
 	
 	private void _exit () {
 		finishAffinity();
+	}
+	
+	
+	private void _refresh () {
+		add_project.clear();
+		all_files.clear();
+		FileUtil.listDir(file.getString("path", ""), all_files);
+		pos_af = 0;
+		for(int _repeat13 = 0; _repeat13 < (int)(all_files.size()); _repeat13++) {
+			if (FileUtil.isDirectory(all_files.get((int)(pos_af)))) {
+				add_project = new HashMap<>();
+				add_project.put("name", Uri.parse(all_files.get((int)(pos_af))).getLastPathSegment());
+				add_project.put("path", all_files.get((int)(pos_af)));
+				projects.add(add_project);
+			}
+			pos_af++;
+		}
+		listview1.setAdapter(new Listview1Adapter(projects));
+		((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
 	}
 	
 	

@@ -306,8 +306,13 @@ public class SettingsActivity extends AppCompatActivity {
 				projects_path = uri.getPath();
 				projects_path = projects_path.replace("tree", "storage");
 				projects_path = projects_path.replace(":", "/");
-				textview3.setText(projects_path);
-				file.edit().putString("path", projects_path).commit();
+				if (FileUtil.isExistFile(projects_path)) {
+					textview3.setText(projects_path);
+					file.edit().putString("path", projects_path).commit();
+				}
+				else {
+					SketchwareUtil.showMessage(getApplicationContext(), "Error: Path doesn't exist?");
+				}
 			}
 			else {
 				
