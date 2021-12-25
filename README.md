@@ -12,6 +12,9 @@ A code editor which is made in Sketchware. This is a big project which is unfini
  
 **Note: it is in it's alpha stages!**
 
+### Screenshots
+![ScreeenShot 1](Server/Screee)
+
 ## TODO List
 I have more goals but unable to do it because of my abilities but i never give up!
 
