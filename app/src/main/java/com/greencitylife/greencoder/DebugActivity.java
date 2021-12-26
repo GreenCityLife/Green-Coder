@@ -21,7 +21,6 @@ import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.EditText;
 import android.view.View;
 
 public class DebugActivity extends AppCompatActivity {
@@ -33,7 +32,6 @@ public class DebugActivity extends AppCompatActivity {
 	private LinearLayout linear1;
 	private ImageView imageview1;
 	private TextView textview1;
-	private EditText edittext1;
 	private LinearLayout linear2;
 	private LinearLayout linear3;
 	private TextView textview2;
@@ -53,7 +51,6 @@ public class DebugActivity extends AppCompatActivity {
 		linear1 = (LinearLayout) findViewById(R.id.linear1);
 		imageview1 = (ImageView) findViewById(R.id.imageview1);
 		textview1 = (TextView) findViewById(R.id.textview1);
-		edittext1 = (EditText) findViewById(R.id.edittext1);
 		linear2 = (LinearLayout) findViewById(R.id.linear2);
 		linear3 = (LinearLayout) findViewById(R.id.linear3);
 		textview2 = (TextView) findViewById(R.id.textview2);

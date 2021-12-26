@@ -133,7 +133,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		_fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				_create_dialog();
+				_create_option();
 			}
 		});
 	}
@@ -269,15 +269,93 @@ public class ProjectsActivity extends AppCompatActivity {
 		pos_af = 0;
 		for(int _repeat13 = 0; _repeat13 < (int)(all_files.size()); _repeat13++) {
 			if (FileUtil.isDirectory(all_files.get((int)(pos_af)))) {
-				add_project = new HashMap<>();
-				add_project.put("name", Uri.parse(all_files.get((int)(pos_af))).getLastPathSegment());
-				add_project.put("path", all_files.get((int)(pos_af)));
-				projects.add(add_project);
+				if (FileUtil.isExistFile(all_files.get((int)(pos_af)).concat("/.gncode/index.json"))) {
+					add_project = new HashMap<>();
+					add_project.put("name", Uri.parse(all_files.get((int)(pos_af))).getLastPathSegment());
+					add_project.put("path", all_files.get((int)(pos_af)));
+					projects.add(add_project);
+				}
 			}
 			pos_af++;
 		}
+		if (projects.size() == 0) {
+			linear_nopro.setVisibility(View.VISIBLE);
+			listview1.setVisibility(View.GONE);
+		}
 		listview1.setAdapter(new Listview1Adapter(projects));
 		((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+	}
+	
+	
+	private void _create_option () {
+		final com.google.android.material.bottomsheet.BottomSheetDialog create_opt = new com.google.android.material.bottomsheet.BottomSheetDialog(ProjectsActivity.this);
+		
+		View options;
+		options = getLayoutInflater().inflate(R.layout.option,null );
+		create_opt.setContentView(options);
+		
+		create_opt.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
+		TextView t1 = (TextView) options.findViewById(R.id.textview1);
+		
+		TextView t2 = (TextView) options.findViewById(R.id.textview2);
+		
+		TextView t3 = (TextView) options.findViewById(R.id.textview3);
+		
+		ImageView i1 = (ImageView) options.findViewById(R.id.imageview1);
+		
+		ImageView i2 = (ImageView) options.findViewById(R.id.imageview2);
+		
+		ImageView i3 = (ImageView) options.findViewById(R.id.imageview3);
+		
+		LinearLayout l1 = (LinearLayout) options.findViewById(R.id.linear1);
+		
+		LinearLayout l2 = (LinearLayout) options.findViewById(R.id.linear2);
+		
+		LinearLayout l3 = (LinearLayout) options.findViewById(R.id.linear3);
+		t1.setText("Create New Project");
+		t2.setText("Import Project");
+		t3.setText("Add a non-green coder project");
+		t1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		t3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);SketchUi.setCornerRadii(new float[]{
+				d*40,d*40,d*40 ,d*40,d*0,d*0 ,d*0,d*0});
+			l1.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l1.setBackground(SketchUiRD);
+			l1.setClickable(true);
+		}
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			l2.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l2.setBackground(SketchUiRD);
+			l2.setClickable(true);
+		}
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			l3.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l3.setBackground(SketchUiRD);
+			l3.setClickable(true);
+		}
+		l1.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				create_opt.dismiss();
+			} });
+		l2.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				create_opt.dismiss();
+			} });
+		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				create_opt.dismiss();
+			} });
+		create_opt.show();
 	}
 	
 	

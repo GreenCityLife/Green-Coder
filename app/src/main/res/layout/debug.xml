@@ -32,16 +32,6 @@
 				android:text="Oops! That one crashed!"
 				android:textSize="18sp"
 				android:textColor="#FFFFFF"/>
-			<EditText
-				android:id="@+id/edittext1"
-				android:layout_width="match_parent"
-				android:layout_height="200dp"
-				android:padding="15dp"
-				android:background="@android:color/transparent"
-				android:textSize="16sp"
-				android:textColor="#FFFFFF"
-				android:hint="Tell us when it happened"
-				android:textColorHint="#ECEFF1"/>
 			<LinearLayout
 				android:id="@+id/linear2"
 				android:layout_width="match_parent"
