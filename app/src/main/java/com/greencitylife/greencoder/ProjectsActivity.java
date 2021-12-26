@@ -69,8 +69,9 @@ public class ProjectsActivity extends AppCompatActivity {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.projects);
 		initialize(_savedInstanceState);
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
 		}
 		else {
 			initializeLogic();
@@ -221,8 +222,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		input.setFocusable(true);
 		input.setFocusableInTouchMode(true);
 		title.setText("Create Project");
-		message.setText("Enter your project name to continue, when you click create, you would be redireced to pick folder");
-		input.setHint("Project Name");
+		message.setText("This is will create a new folder in your project's path");
+		input.setHint("Project's Name");
 		title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		message.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		ok.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
@@ -239,6 +240,8 @@ public class ProjectsActivity extends AppCompatActivity {
 				if (!input.getText().toString().equals("")) {
 					name = input.getText().toString();
 					create.dismiss();
+					FileUtil.writeFile(file.getString("path", "").concat("/".concat(name.concat("/.gncode/index.json"))), default_settings);
+					_refresh();
 				} else {
 					SketchwareUtil.showMessage(getApplicationContext(), "Empty File Name");
 				}
@@ -348,12 +351,15 @@ public class ProjectsActivity extends AppCompatActivity {
 		}
 		l1.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();
+				_create_dialog();
 			} });
 		l2.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();
+				SketchwareUtil.showMessage(getApplicationContext(), "Comming Soon");
 			} });
 		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();
+				SketchwareUtil.showMessage(getApplicationContext(), "Comming Soon");
 			} });
 		create_opt.show();
 	}
