@@ -33,6 +33,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.ClipData;
 import android.widget.AdapterView;
 import android.view.View;
 import android.graphics.Typeface;
@@ -43,6 +44,7 @@ import android.content.pm.PackageManager;
 
 public class ProjectsActivity extends AppCompatActivity {
 	
+	public final int REQ_CD_IMPORTS = 101;
 	
 	private Toolbar _toolbar;
 	private FloatingActionButton _fab;
@@ -51,6 +53,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String path = "";
 	private String default_settings = "";
 	private double pos_af = 0;
+	private String import_path = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
@@ -64,6 +67,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private Intent i = new Intent();
 	private AlertDialog.Builder confirmation;
 	private SharedPreferences file;
+	private Intent imports = new Intent(Intent.ACTION_GET_CONTENT);
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -106,6 +110,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		textview2 = (TextView) findViewById(R.id.textview2);
 		confirmation = new AlertDialog.Builder(this);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
+		imports.setType("application/zip");
+		imports.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		
 		listview1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
@@ -147,6 +153,14 @@ public class ProjectsActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#000000")));
 		setTheme(android.R.style.Theme_Material);
+		if (!file.getString("path", "").equals("")) {
+			if (FileUtil.isExistFile(file.getString("path", "").trim())) {
+				_refresh();
+			}
+			else {
+				SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't find projects! path doesn't exists");
+			}
+		}
 	}
 	@Override
 		public boolean onCreateOptionsMenu(Menu menu){
@@ -185,24 +199,35 @@ public class ProjectsActivity extends AppCompatActivity {
 		super.onActivityResult(_requestCode, _resultCode, _data);
 		
 		switch (_requestCode) {
-			
+			case REQ_CD_IMPORTS:
+			if (_resultCode == Activity.RESULT_OK) {
+				ArrayList<String> _filePath = new ArrayList<>();
+				if (_data != null) {
+					if (_data.getClipData() != null) {
+						for (int _index = 0; _index < _data.getClipData().getItemCount(); _index++) {
+							ClipData.Item _item = _data.getClipData().getItemAt(_index);
+							_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _item.getUri()));
+						}
+					}
+					else {
+						_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _data.getData()));
+					}
+				}
+				Uri uri = _data.getData();
+				import_path = uri.getPath();
+				import_path = import_path.replace("document", "storage");
+				import_path = import_path.replace(":", "/");
+				SketchwareUtil.showMessage(getApplicationContext(), "Error: Importing projects, Unsupported Zip file.");
+			}
+			else {
+				
+			}
+			break;
 			default:
 			break;
 		}
 	}
 	
-	@Override
-	public void onStart() {
-		super.onStart();
-		if (!file.getString("path", "").equals("")) {
-			if (FileUtil.isExistFile(file.getString("path", "").trim())) {
-				_refresh();
-			}
-			else {
-				SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't find projects! path doesn't exists");
-			}
-		}
-	}
 	private void _create_dialog () {
 		final AlertDialog create = new AlertDialog.Builder(ProjectsActivity.this).create();
 		View options = getLayoutInflater().inflate(R.layout.create_file,null); 
@@ -355,7 +380,7 @@ public class ProjectsActivity extends AppCompatActivity {
 			} });
 		l2.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();
-				SketchwareUtil.showMessage(getApplicationContext(), "Comming Soon");
+				startActivityForResult(imports, REQ_CD_IMPORTS);
 			} });
 		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();

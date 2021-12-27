@@ -23,6 +23,7 @@ import java.util.HashMap;
 import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Switch;
 import android.content.Intent;
 import android.net.Uri;
 import android.content.ClipData;
@@ -76,6 +77,11 @@ public class SettingsActivity extends AppCompatActivity {
 	private TextView textview15;
 	private TextView textview16;
 	private TextView textview17;
+	private LinearLayout debug_log;
+	private TextView textview18;
+	private TextView textview19;
+	private LinearLayout linear3;
+	private Switch switch1;
 	
 	private Intent i = new Intent();
 	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
@@ -141,6 +147,11 @@ public class SettingsActivity extends AppCompatActivity {
 		textview15 = (TextView) findViewById(R.id.textview15);
 		textview16 = (TextView) findViewById(R.id.textview16);
 		textview17 = (TextView) findViewById(R.id.textview17);
+		debug_log = (LinearLayout) findViewById(R.id.debug_log);
+		textview18 = (TextView) findViewById(R.id.textview18);
+		textview19 = (TextView) findViewById(R.id.textview19);
+		linear3 = (LinearLayout) findViewById(R.id.linear3);
+		switch1 = (Switch) findViewById(R.id.switch1);
 		directoryChooser.setType("*/*");
 		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
@@ -356,6 +367,8 @@ public class SettingsActivity extends AppCompatActivity {
 		textview15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		textview16.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview17.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
+		textview19.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 	}
 	
 	
