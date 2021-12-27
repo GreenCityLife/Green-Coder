@@ -48,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
 	private String projects_path = "";
 	private String versionName = "";
 	private String versionCode = "";
+	private boolean is_debug_log_enabled = false;
 	
 	private ArrayList<HashMap<String, Object>> api_list = new ArrayList<>();
 	
@@ -55,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
 	private LinearLayout linear1;
 	private TextView textview1;
 	private LinearLayout project_path;
+	private LinearLayout debug_log;
 	private TextView textview4;
 	private LinearLayout report_bug;
 	private LinearLayout git_repo;
@@ -65,6 +67,10 @@ public class SettingsActivity extends AppCompatActivity {
 	private LinearLayout clog;
 	private TextView textview2;
 	private TextView textview3;
+	private LinearLayout linear3;
+	private Switch switch1;
+	private TextView textview18;
+	private TextView textview19;
 	private TextView textview5;
 	private TextView textview6;
 	private TextView textview7;
@@ -77,11 +83,6 @@ public class SettingsActivity extends AppCompatActivity {
 	private TextView textview15;
 	private TextView textview16;
 	private TextView textview17;
-	private LinearLayout debug_log;
-	private TextView textview18;
-	private TextView textview19;
-	private LinearLayout linear3;
-	private Switch switch1;
 	
 	private Intent i = new Intent();
 	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
@@ -125,6 +126,7 @@ public class SettingsActivity extends AppCompatActivity {
 		linear1 = (LinearLayout) findViewById(R.id.linear1);
 		textview1 = (TextView) findViewById(R.id.textview1);
 		project_path = (LinearLayout) findViewById(R.id.project_path);
+		debug_log = (LinearLayout) findViewById(R.id.debug_log);
 		textview4 = (TextView) findViewById(R.id.textview4);
 		report_bug = (LinearLayout) findViewById(R.id.report_bug);
 		git_repo = (LinearLayout) findViewById(R.id.git_repo);
@@ -135,6 +137,10 @@ public class SettingsActivity extends AppCompatActivity {
 		clog = (LinearLayout) findViewById(R.id.clog);
 		textview2 = (TextView) findViewById(R.id.textview2);
 		textview3 = (TextView) findViewById(R.id.textview3);
+		linear3 = (LinearLayout) findViewById(R.id.linear3);
+		switch1 = (Switch) findViewById(R.id.switch1);
+		textview18 = (TextView) findViewById(R.id.textview18);
+		textview19 = (TextView) findViewById(R.id.textview19);
 		textview5 = (TextView) findViewById(R.id.textview5);
 		textview6 = (TextView) findViewById(R.id.textview6);
 		textview7 = (TextView) findViewById(R.id.textview7);
@@ -147,11 +153,6 @@ public class SettingsActivity extends AppCompatActivity {
 		textview15 = (TextView) findViewById(R.id.textview15);
 		textview16 = (TextView) findViewById(R.id.textview16);
 		textview17 = (TextView) findViewById(R.id.textview17);
-		debug_log = (LinearLayout) findViewById(R.id.debug_log);
-		textview18 = (TextView) findViewById(R.id.textview18);
-		textview19 = (TextView) findViewById(R.id.textview19);
-		linear3 = (LinearLayout) findViewById(R.id.linear3);
-		switch1 = (Switch) findViewById(R.id.switch1);
 		directoryChooser.setType("*/*");
 		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
@@ -162,6 +163,19 @@ public class SettingsActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				_chooseDirectory();
+			}
+		});
+		
+		debug_log.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				is_debug_log_enabled = switch1.isChecked();
+				if (is_debug_log_enabled) {
+					switch1.setChecked(false);
+				}
+				else {
+					switch1.setChecked(true);
+				}
 			}
 		});
 		
@@ -281,6 +295,7 @@ public class SettingsActivity extends AppCompatActivity {
 		_rippleRoundStroke(force_crash, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(version, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(clog, "#212121", "#e0e0e0", 0, 0, "#212121");
+		_rippleRoundStroke(debug_log, "#212121", "#e0e0e0", 0, 0, "#212121");
 		String versionName = "null";
 		int versionCode = -1;
 		try {
@@ -347,6 +362,26 @@ public class SettingsActivity extends AppCompatActivity {
 		if (!file.getString("path", "").equals("")) {
 			projects_path = file.getString("path", "");
 			textview3.setText(projects_path);
+		}
+		if (!file.getString("debug", "").equals("")) {
+			if (file.getString("debug", "").equals("true")) {
+				switch1.setChecked(true);
+			}
+			else {
+				switch1.setChecked(false);
+			}
+		}
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		is_debug_log_enabled = switch1.isChecked();
+		if (is_debug_log_enabled) {
+			file.edit().putString("debug", "true").commit();
+		}
+		else {
+			file.edit().putString("debug", "false").commit();
 		}
 	}
 	private void _Font () {

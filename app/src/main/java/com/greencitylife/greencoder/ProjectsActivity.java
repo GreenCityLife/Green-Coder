@@ -45,6 +45,7 @@ import android.content.pm.PackageManager;
 public class ProjectsActivity extends AppCompatActivity {
 	
 	public final int REQ_CD_IMPORTS = 101;
+	public final int REQ_CD_DIRECTORYCHOOSER = 102;
 	
 	private Toolbar _toolbar;
 	private FloatingActionButton _fab;
@@ -54,6 +55,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String default_settings = "";
 	private double pos_af = 0;
 	private String import_path = "";
+	private String add_path = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
@@ -68,6 +70,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private AlertDialog.Builder confirmation;
 	private SharedPreferences file;
 	private Intent imports = new Intent(Intent.ACTION_GET_CONTENT);
+	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -112,6 +115,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		imports.setType("application/zip");
 		imports.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+		directoryChooser.setType("*/*");
+		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		
 		listview1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
@@ -218,6 +223,31 @@ public class ProjectsActivity extends AppCompatActivity {
 				import_path = import_path.replace("document", "storage");
 				import_path = import_path.replace(":", "/");
 				SketchwareUtil.showMessage(getApplicationContext(), "Error: Importing projects, Unsupported Zip file.");
+			}
+			else {
+				
+			}
+			break;
+			
+			case REQ_CD_DIRECTORYCHOOSER:
+			if (_resultCode == Activity.RESULT_OK) {
+				ArrayList<String> _filePath = new ArrayList<>();
+				if (_data != null) {
+					if (_data.getClipData() != null) {
+						for (int _index = 0; _index < _data.getClipData().getItemCount(); _index++) {
+							ClipData.Item _item = _data.getClipData().getItemAt(_index);
+							_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _item.getUri()));
+						}
+					}
+					else {
+						_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _data.getData()));
+					}
+				}
+				Uri uri = _data.getData();
+				add_path = uri.getPath();
+				add_path = add_path.replace("tree", "storage");
+				add_path = add_path.replace(":", "/");
+				SketchwareUtil.showMessage(getApplicationContext(), "Will be soon!");
 			}
 			else {
 				
@@ -384,9 +414,49 @@ public class ProjectsActivity extends AppCompatActivity {
 			} });
 		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();
-				SketchwareUtil.showMessage(getApplicationContext(), "Comming Soon");
+				_chooseDirectory();
 			} });
 		create_opt.show();
+	}
+	
+	
+	private void _chooseDirectory () {
+		directoryChooser = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+		directoryChooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		directoryChooser.addCategory(Intent.CATEGORY_DEFAULT);
+		startActivityForResult(Intent.createChooser(directoryChooser,"Choose Directory"), REQ_CD_DIRECTORYCHOOSER);
+	}
+	private String getFileName(Uri uri) throws IllegalArgumentException { 
+		// Obtain a cursor with information regarding this uri
+		android.database.Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+		 if (cursor.getCount() <= 0) { 
+			cursor.close(); 
+			throw new IllegalArgumentException("Can't obtain file name, cursor is empty"); 
+		} 
+		cursor.moveToFirst(); 
+		String fileName = cursor.getString(cursor.getColumnIndexOrThrow(android.provider.OpenableColumns.DISPLAY_NAME)); 
+		cursor.close(); 
+		return fileName;
+		 }
+	
+	private String getRealPathFromURI(Uri contentURI) { 
+		String result = "";
+		 android.database.Cursor cursor = getContentResolver().query(contentURI, null, null, null, null); 
+		if (cursor == null) { 
+			// Source is Dropbox or other similar local file path result = contentURI.getPath(); 
+		} else { cursor.moveToFirst(); int idx = cursor.getColumnIndex(android.provider.MediaStore.Images.ImageColumns.DATA);
+			 result = cursor.getString(idx);
+			 cursor.close(); 
+		} return result; 
+	}
+	private String getDocumentPathFromTreeUri(final Uri treeUri) {
+		 final String docId = android.provider. DocumentsContract.getTreeDocumentId(treeUri); 
+		final String[] split = docId.split(":");
+		 if ((split.length >= 2) && (split[1] != null)) { 
+			return split[1]; 
+		} else { 
+			return java.io.File.separator; 
+		} 
 	}
 	
 	

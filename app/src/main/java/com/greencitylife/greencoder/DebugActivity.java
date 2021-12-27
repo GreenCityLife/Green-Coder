@@ -21,7 +21,13 @@ import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.view.View;
+import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
 
 public class DebugActivity extends AppCompatActivity {
 	
@@ -37,12 +43,30 @@ public class DebugActivity extends AppCompatActivity {
 	private TextView textview2;
 	private ImageView imageview2;
 	private TextView textview3;
+	private LinearLayout linear4;
+	private TextView textview4;
+	private TextView textview5;
+	
+	private SharedPreferences file;
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.debug);
 		initialize(_savedInstanceState);
-		initializeLogic();
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+		}
+		else {
+			initializeLogic();
+		}
+	}
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == 1000) {
+			initializeLogic();
+		}
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -56,6 +80,10 @@ public class DebugActivity extends AppCompatActivity {
 		textview2 = (TextView) findViewById(R.id.textview2);
 		imageview2 = (ImageView) findViewById(R.id.imageview2);
 		textview3 = (TextView) findViewById(R.id.textview3);
+		linear4 = (LinearLayout) findViewById(R.id.linear4);
+		textview4 = (TextView) findViewById(R.id.textview4);
+		textview5 = (TextView) findViewById(R.id.textview5);
+		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		
 		linear2.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -77,6 +105,11 @@ public class DebugActivity extends AppCompatActivity {
 		textview3.setText(getIntent().getStringExtra("error"));
 		is_expanded = false;
 		linear3.setVisibility(View.GONE);
+		if (!file.getString("debug", "").equals("")) {
+			if (file.getString("debug", "").equals("true")) {
+				FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.gncode/crash_log.txt"), getIntent().getStringExtra("error"));
+			}
+		}
 	}
 	
 	@Override
