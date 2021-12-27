@@ -686,6 +686,7 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/navigate_item.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/project_item.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/option.xml \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/refresh.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/app_icon.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/default_image.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/app_image.png \
@@ -701,6 +702,8 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_close_white.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_edit_white.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_import_file.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_refresh.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_refresh_white.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/colors.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/styles.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/strings.xml \

@@ -40,10 +40,10 @@ public class DebugActivity extends AppCompatActivity {
 	private TextView textview1;
 	private LinearLayout linear2;
 	private LinearLayout linear3;
+	private LinearLayout linear4;
 	private TextView textview2;
 	private ImageView imageview2;
 	private TextView textview3;
-	private LinearLayout linear4;
 	private TextView textview4;
 	private TextView textview5;
 	
@@ -77,10 +77,10 @@ public class DebugActivity extends AppCompatActivity {
 		textview1 = (TextView) findViewById(R.id.textview1);
 		linear2 = (LinearLayout) findViewById(R.id.linear2);
 		linear3 = (LinearLayout) findViewById(R.id.linear3);
+		linear4 = (LinearLayout) findViewById(R.id.linear4);
 		textview2 = (TextView) findViewById(R.id.textview2);
 		imageview2 = (ImageView) findViewById(R.id.imageview2);
 		textview3 = (TextView) findViewById(R.id.textview3);
-		linear4 = (LinearLayout) findViewById(R.id.linear4);
 		textview4 = (TextView) findViewById(R.id.textview4);
 		textview5 = (TextView) findViewById(R.id.textview5);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);

@@ -36,6 +36,7 @@ import android.content.SharedPreferences;
 import android.content.ClipData;
 import android.widget.AdapterView;
 import android.view.View;
+import com.google.gson.Gson;
 import android.graphics.Typeface;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
@@ -56,9 +57,11 @@ public class ProjectsActivity extends AppCompatActivity {
 	private double pos_af = 0;
 	private String import_path = "";
 	private String add_path = "";
+	private String new_project_path = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
+	private ArrayList<HashMap<String, Object>> index_json = new ArrayList<>();
 	
 	private LinearLayout linear2;
 	private ListView listview1;
@@ -172,6 +175,7 @@ public class ProjectsActivity extends AppCompatActivity {
 				menu.add(0, 0, 0, "Create Project");
 				menu.add(0, 1, 0, "Settings");
 		     menu.add(0, 2, 0, "Exit");
+		     menu.add(0, 3, 0, "Refresh").setIcon(R.drawable.ic_refresh_white).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 				return super.onCreateOptionsMenu(menu);
 	}
 	@Override
@@ -191,6 +195,11 @@ public class ProjectsActivity extends AppCompatActivity {
 			   case 2:
 			
 			_exit();
+			
+			   return true;
+			   case 3:
+			
+			_refresher();
 			
 			   return true;
 			
@@ -247,7 +256,12 @@ public class ProjectsActivity extends AppCompatActivity {
 				add_path = uri.getPath();
 				add_path = add_path.replace("tree", "storage");
 				add_path = add_path.replace(":", "/");
-				SketchwareUtil.showMessage(getApplicationContext(), "Will be soon!");
+				if (!add_path.contains(file.getString("path", ""))) {
+					SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't add project, Directory not located in your project's path?");
+				}
+				else {
+					SketchwareUtil.showMessage(getApplicationContext(), "Will be soon!");
+				}
 			}
 			else {
 				
@@ -295,8 +309,36 @@ public class ProjectsActivity extends AppCompatActivity {
 				if (!input.getText().toString().equals("")) {
 					name = input.getText().toString();
 					create.dismiss();
-					FileUtil.writeFile(file.getString("path", "").concat("/".concat(name.concat("/.gncode/index.json"))), default_settings);
-					_refresh();
+					new_project_path = file.getString("path", "").concat("/".concat(name));
+					FileUtil.writeFile(new_project_path.concat("/index.txt"), "This is a sample file created by green coder. Make sure to delete or edit or create new file using navigate option");
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("title", "index.txt");
+						index_json.add(_item);
+					}
+					
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("visible", "true");
+						index_json.add(_item);
+					}
+					
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("opening_file", new_project_path.concat("/index.txt"));
+						index_json.add(_item);
+					}
+					
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("directory", new_project_path);
+						index_json.add(_item);
+					}
+					
+					default_settings = new Gson().toJson(index_json);
+					FileUtil.writeFile(new_project_path.concat("/.gncode/index.json"), default_settings);
+					i.setClass(getApplicationContext(), RefreshActivity.class);
+					startActivity(i);
 				} else {
 					SketchwareUtil.showMessage(getApplicationContext(), "Empty File Name");
 				}
@@ -323,7 +365,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private void _refresh () {
 		add_project.clear();
 		all_files.clear();
-		FileUtil.listDir(file.getString("path", ""), all_files);
+		FileUtil.listDir(file.getString("path", "").trim(), all_files);
 		pos_af = 0;
 		for(int _repeat13 = 0; _repeat13 < (int)(all_files.size()); _repeat13++) {
 			if (FileUtil.isDirectory(all_files.get((int)(pos_af)))) {
@@ -340,8 +382,10 @@ public class ProjectsActivity extends AppCompatActivity {
 			linear_nopro.setVisibility(View.VISIBLE);
 			listview1.setVisibility(View.GONE);
 		}
-		listview1.setAdapter(new Listview1Adapter(projects));
-		((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+		else {
+			listview1.setAdapter(new Listview1Adapter(projects));
+			((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+		}
 	}
 	
 	
@@ -457,6 +501,13 @@ public class ProjectsActivity extends AppCompatActivity {
 		} else { 
 			return java.io.File.separator; 
 		} 
+	}
+	
+	
+	private void _refresher () {
+		i.setClass(getApplicationContext(), RefreshActivity.class);
+		startActivity(i);
+		finish();
 	}
 	
 	
