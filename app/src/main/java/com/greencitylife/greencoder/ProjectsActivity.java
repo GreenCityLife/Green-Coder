@@ -560,6 +560,7 @@ public class ProjectsActivity extends AppCompatActivity {
 			linear1.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View _view) {
+					i.putExtra("project_path", _data.get((int)_position).get("path").toString());
 					i.setClass(getApplicationContext(), CodeActivity.class);
 					startActivity(i);
 					finish();
