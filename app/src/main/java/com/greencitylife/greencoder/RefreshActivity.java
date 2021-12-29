@@ -30,6 +30,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import java.util.Timer;
 import java.util.TimerTask;
+import android.graphics.Typeface;
 
 public class RefreshActivity extends AppCompatActivity {
 	
@@ -59,6 +60,7 @@ public class RefreshActivity extends AppCompatActivity {
 	private void initializeLogic() {
 		getWindow().setNavigationBarColor(0xFF000000);
 		getWindow().setStatusBarColor(0xFF000000);
+		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		animator.setTarget(imageview1);
 		animator.setPropertyName("rotation");
 		animator.setFloatValues((float)(0), (float)(360));
