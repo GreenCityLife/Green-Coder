@@ -58,6 +58,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String import_path = "";
 	private String add_path = "";
 	private String new_project_path = "";
+	private String delete_path = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
@@ -125,6 +126,7 @@ public class ProjectsActivity extends AppCompatActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
+				delete_path = projects.get((int)_position).get("path").toString();
 				_project_option();
 				return true;
 			}
@@ -521,7 +523,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		LinearLayout l2 = (LinearLayout) option.findViewById(R.id.linear2);
 		
 		LinearLayout l3 = (LinearLayout) option.findViewById(R.id.linear3);
-		t1.setText("Backup");
+		t1.setText("Backup (or) Export");
 		t2.setText("Hide");
 		t3.setText("Delete");
 		i1.setImageResource(R.drawable.ic_backup);
@@ -560,7 +562,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		}
 		l1.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
-				_create_dialog();
+				_backup();
 			} });
 		l2.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
@@ -568,9 +570,34 @@ public class ProjectsActivity extends AppCompatActivity {
 			} });
 		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
-				_chooseDirectory();
+				_delete(delete_path);
 			} });
 		pro_opt.show();
+	}
+	
+	
+	private void _backup () {
+		
+	}
+	
+	
+	private void _delete (final String _delete_path) {
+		confirmation.setTitle("Delete Project?");
+		confirmation.setMessage("Are you sure, you want to delete this project? This is irreversible!!!");
+		confirmation.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface _dialog, int _which) {
+				FileUtil.deleteFile(_delete_path);
+				_refresher();
+			}
+		});
+		confirmation.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface _dialog, int _which) {
+				
+			}
+		});
+		confirmation.create().show();
 	}
 	
 	
