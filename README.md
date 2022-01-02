@@ -17,6 +17,9 @@ A code editor which is made in Sketchware. This is a big project which is unfini
 <b><p align="center">Settings Activity</p></b>
 
 <img src="Server/Screenshot_20211225-111937.jpg" align="center">
+<b><p align="center">Home Activity (without projects)</p></b>
+
+<img src="Server/Screenshot_20220102-133859.jpg" align="center">
 <b><p align="center">Home Activity</p></b>
 
 ## TODO List
