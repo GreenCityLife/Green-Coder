@@ -24,7 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **App Info**
- - Android Manufacturer: [e.g. Samsung]
+ - Android Manufacturer: [e.g. Samsung SM-G920F]
  - Android Version: [e.g. A11]
  - App Version: [e.g. 0.1.0]
 
