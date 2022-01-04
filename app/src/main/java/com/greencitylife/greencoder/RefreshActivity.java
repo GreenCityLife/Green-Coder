@@ -76,6 +76,7 @@ public class RefreshActivity extends AppCompatActivity {
 						i.setClass(getApplicationContext(), ProjectsActivity.class);
 						startActivity(i);
 						finish();
+						overridePendingTransition(0,0);
 					}
 				});
 			}

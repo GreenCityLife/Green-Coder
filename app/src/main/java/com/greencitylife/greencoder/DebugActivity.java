@@ -23,7 +23,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
+import android.graphics.Typeface;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
@@ -33,6 +40,14 @@ public class DebugActivity extends AppCompatActivity {
 	
 	
 	private boolean is_expanded = false;
+	private String error_log = "";
+	private String versionCode = "";
+	private String versionName = "";
+	private String manu = "";
+	private String model = "";
+	private String manufacturer = "";
+	private String Android = "";
+	private String time = "";
 	
 	private ScrollView vscroll1;
 	private LinearLayout linear1;
@@ -41,13 +56,17 @@ public class DebugActivity extends AppCompatActivity {
 	private LinearLayout linear2;
 	private LinearLayout linear3;
 	private LinearLayout linear4;
+	private LinearLayout button1;
 	private TextView textview2;
 	private ImageView imageview2;
 	private TextView textview3;
 	private TextView textview4;
 	private TextView textview5;
+	private TextView textview6;
 	
 	private SharedPreferences file;
+	private Calendar date = Calendar.getInstance();
+	private Intent i = new Intent();
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -78,11 +97,13 @@ public class DebugActivity extends AppCompatActivity {
 		linear2 = (LinearLayout) findViewById(R.id.linear2);
 		linear3 = (LinearLayout) findViewById(R.id.linear3);
 		linear4 = (LinearLayout) findViewById(R.id.linear4);
+		button1 = (LinearLayout) findViewById(R.id.button1);
 		textview2 = (TextView) findViewById(R.id.textview2);
 		imageview2 = (ImageView) findViewById(R.id.imageview2);
 		textview3 = (TextView) findViewById(R.id.textview3);
 		textview4 = (TextView) findViewById(R.id.textview4);
 		textview5 = (TextView) findViewById(R.id.textview5);
+		textview6 = (TextView) findViewById(R.id.textview6);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		
 		linear2.setOnClickListener(new View.OnClickListener() {
@@ -100,14 +121,58 @@ public class DebugActivity extends AppCompatActivity {
 				}
 			}
 		});
+		
+		button1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				((ClipboardManager) getSystemService(getApplicationContext().CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("clipboard", error_log));
+				SketchwareUtil.showMessage(getApplicationContext(), "Copied Error Logs to Clipboard!");
+				i.setAction(Intent.ACTION_VIEW);
+				i.setData(Uri.parse("https://github.com/GreenCityLife/Green-Coder/issues/new?labels=crash%20report&title=Crash%20Report"));
+				startActivity(i);
+				finish();
+			}
+		});
 	}
 	private void initializeLogic() {
+		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview5.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview6.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF4CAF50);
+			SketchUi.setCornerRadius(d*25);
+			button1.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			button1.setBackground(SketchUiRD);
+			button1.setClickable(true);
+		}
 		textview3.setText(getIntent().getStringExtra("error"));
+		String versionName = "null";
+		int versionCode = -1;
+		try {
+			android.content.pm.PackageInfo packageInfo = DebugActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
+			versionName = packageInfo.versionName;
+			versionCode = packageInfo.versionCode;
+		} catch (android.content.pm.PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		String manu = Build.MANUFACTURER;
+		String model = Build.MODEL;
+		manufacturer = manu.toUpperCase().concat(" ".concat(model.toUpperCase()));
+		Android = Build.VERSION.RELEASE;
+		date = Calendar.getInstance();
+		time = new SimpleDateFormat("d/M/YYYY hh:mm a").format(date.getTime());
+		error_log = "Android Version: ".concat(Android.concat("\n").concat("Manufacturer: ".concat(manufacturer.concat("\n")).concat("Date: ".concat(time).concat("\n").concat("Build Version: ".concat(versionName.concat("\n").concat("Crash Log: \n".concat(getIntent().getStringExtra("error"))))))));
 		is_expanded = false;
 		linear3.setVisibility(View.GONE);
 		if (!file.getString("debug", "").equals("")) {
 			if (file.getString("debug", "").equals("true")) {
-				FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.gncode/crash_log.txt"), getIntent().getStringExtra("error"));
+				FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.gncode/crash_log.txt"), error_log);
 			}
 		}
 	}

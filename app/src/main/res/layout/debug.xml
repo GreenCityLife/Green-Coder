@@ -92,6 +92,26 @@
 					android:textSize="14sp"
 					android:textColor="#FFFFFF"/>
 			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/button1"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp"
+				android:layout_marginTop="20dp"
+				android:layout_marginRight="10dp"
+				android:padding="8dp"
+				android:background="#4CAF50"
+				android:gravity="center_horizontal|center_vertical"
+				android:orientation="horizontal">
+				<TextView
+					android:id="@+id/textview6"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="Report Crash"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"/>
+			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

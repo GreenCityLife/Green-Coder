@@ -495,6 +495,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		i.setClass(getApplicationContext(), RefreshActivity.class);
 		startActivity(i);
 		finish();
+		overridePendingTransition(0,0);
 	}
 	
 	

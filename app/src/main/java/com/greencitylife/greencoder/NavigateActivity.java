@@ -131,7 +131,7 @@ public class NavigateActivity extends AppCompatActivity {
 	private void initializeLogic() {
 		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		getWindow().setNavigationBarColor(0xFF212121);
-		newfile = "This is newly created file! Change me to whatever you want from Green Coder app";
+		newfile = "Hello World!";
 		directory = getIntent().getStringExtra("path");
 		path = getIntent().getStringExtra("path");
 		textview1.setText(directory);

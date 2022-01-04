@@ -155,7 +155,11 @@ public class CodeActivity extends AppCompatActivity {
 	
 	
 	private void _navigate () {
-		SketchwareUtil.showMessage(getApplicationContext(), "Soon!");
+		i.setClass(getApplicationContext(), NavigateActivity.class);
+		startActivity(i);
+		i.putExtra("path", directory);
+		finish();
+		overridePendingTransition(0,0);
 	}
 	
 	
