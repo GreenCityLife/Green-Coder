@@ -87,22 +87,32 @@ public class CodeActivity extends AppCompatActivity {
 	}
 	private void initializeLogic() {
 		edittext1.setVisibility(View.GONE);
-		if (!getIntent().getStringExtra("project_path").equals("")) {
-			if (FileUtil.isExistFile(getIntent().getStringExtra("project_path").concat("/.gncode/index.json"))) {
-				render_data = new Gson().fromJson(FileUtil.readFile(getIntent().getStringExtra("project_path").concat("/.gncode/index.json")), new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
-				setTitle(render_data.get((int)0).get("title").toString());
-				directory = render_data.get((int)3).get("directory").toString();
-				_Subtitle(Uri.parse(directory).getLastPathSegment());
-				path = render_data.get((int)2).get("opening_file").toString();
-				edittext1.setText(FileUtil.readFile(path));
-				edittext1.setVisibility(View.VISIBLE);
+		if (getIntent().getStringExtra("navigate").equals("false")) {
+			if (!getIntent().getStringExtra("project_path").equals("")) {
+				if (FileUtil.isExistFile(getIntent().getStringExtra("project_path").concat("/.gncode/index.json"))) {
+					render_data = new Gson().fromJson(FileUtil.readFile(getIntent().getStringExtra("project_path").concat("/.gncode/index.json")), new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
+					setTitle(render_data.get((int)0).get("title").toString());
+					directory = render_data.get((int)3).get("directory").toString();
+					_Subtitle(Uri.parse(directory).getLastPathSegment());
+					path = render_data.get((int)2).get("opening_file").toString();
+					edittext1.setText(FileUtil.readFile(path));
+					edittext1.setVisibility(View.VISIBLE);
+				}
+				else {
+					SketchwareUtil.showMessage(getApplicationContext(), "Error: Path doesn't exist?");
+				}
 			}
 			else {
-				SketchwareUtil.showMessage(getApplicationContext(), "Error: Path doesn't exist?");
+				SketchwareUtil.showMessage(getApplicationContext(), "Error: Path Empty?");
 			}
 		}
 		else {
-			SketchwareUtil.showMessage(getApplicationContext(), "Error: Path Empty?");
+			setTitle(Uri.parse(file.getString("filepath", "")).getLastPathSegment());
+			_Subtitle(Uri.parse(file.getString("directory", "")).getLastPathSegment());
+			path = file.getString("filepath", "");
+			directory = file.getString("directory", "");
+			edittext1.setText(FileUtil.readFile(path));
+			edittext1.setVisibility(View.VISIBLE);
 		}
 		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/jetbrains_mono_regular.ttf"), 0);
 		getWindow().setStatusBarColor(0xFF212121);

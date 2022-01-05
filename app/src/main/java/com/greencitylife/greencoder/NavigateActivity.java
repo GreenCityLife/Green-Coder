@@ -103,11 +103,13 @@ public class NavigateActivity extends AppCompatActivity {
 				}
 				else {
 					finalpath = files.get((int)_position).get("path").toString();
+					i.putExtra("navigate", "true");
 					file.edit().putString("filepath", finalpath).commit();
 					file.edit().putString("directory", directory).commit();
 					i.setClass(getApplicationContext(), CodeActivity.class);
 					startActivity(i);
 					finish();
+					overridePendingTransition(0,0);
 				}
 			}
 		});
@@ -138,7 +140,7 @@ public class NavigateActivity extends AppCompatActivity {
 		try {
 			_Refresh();
 		} catch (Exception e) {
-			SketchwareUtil.showMessage(getApplicationContext(), file.getString("navigation", ""));
+			SketchwareUtil.showMessage(getApplicationContext(), "Error: Failed to retrive path!");
 		}
 	}
 	
