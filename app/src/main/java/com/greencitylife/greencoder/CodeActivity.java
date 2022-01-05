@@ -157,7 +157,7 @@ public class CodeActivity extends AppCompatActivity {
 	private void _navigate () {
 		i.setClass(getApplicationContext(), NavigateActivity.class);
 		startActivity(i);
-		i.putExtra("path", directory);
+		file.edit().putString("navigation", directory).commit();
 		finish();
 		overridePendingTransition(0,0);
 	}

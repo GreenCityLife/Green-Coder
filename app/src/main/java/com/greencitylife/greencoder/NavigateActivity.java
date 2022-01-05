@@ -132,10 +132,14 @@ public class NavigateActivity extends AppCompatActivity {
 		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		getWindow().setNavigationBarColor(0xFF212121);
 		newfile = "Hello World!";
-		directory = getIntent().getStringExtra("path");
-		path = getIntent().getStringExtra("path");
+		directory = file.getString("navigation", "");
+		path = file.getString("navigation", "");
 		textview1.setText(directory);
-		_Refresh();
+		try {
+			_Refresh();
+		} catch (Exception e) {
+			SketchwareUtil.showMessage(getApplicationContext(), file.getString("navigation", ""));
+		}
 	}
 	
 	@Override
