@@ -682,11 +682,11 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/projects.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/debug.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/settings.xml \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/refresh.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/create_file.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/navigate_item.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/project_item.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/option.xml \
-/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/refresh.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/app_icon.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/default_image.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/app_image.png \
@@ -707,6 +707,7 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_delete.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_backup.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_hide.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_quick.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/colors.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/styles.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/strings.xml \

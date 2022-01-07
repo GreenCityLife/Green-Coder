@@ -47,6 +47,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	
 	public final int REQ_CD_IMPORTS = 101;
 	public final int REQ_CD_DIRECTORYCHOOSER = 102;
+	public final int REQ_CD_QUICK = 103;
 	
 	private Toolbar _toolbar;
 	private FloatingActionButton _fab;
@@ -60,6 +61,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String new_project_path = "";
 	private String delete_path = "";
 	private String function_path = "";
+	private String quick_path = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
@@ -76,6 +78,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private SharedPreferences file;
 	private Intent imports = new Intent(Intent.ACTION_GET_CONTENT);
 	private Intent directoryChooser = new Intent(Intent.ACTION_GET_CONTENT);
+	private Intent quick = new Intent(Intent.ACTION_GET_CONTENT);
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -122,6 +125,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		imports.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		directoryChooser.setType("*/*");
 		directoryChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+		quick.setType("*/*");
+		quick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		
 		listview1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
@@ -250,6 +255,35 @@ public class ProjectsActivity extends AppCompatActivity {
 				else {
 					SketchwareUtil.showMessage(getApplicationContext(), "Will be soon!");
 				}
+			}
+			else {
+				
+			}
+			break;
+			
+			case REQ_CD_QUICK:
+			if (_resultCode == Activity.RESULT_OK) {
+				ArrayList<String> _filePath = new ArrayList<>();
+				if (_data != null) {
+					if (_data.getClipData() != null) {
+						for (int _index = 0; _index < _data.getClipData().getItemCount(); _index++) {
+							ClipData.Item _item = _data.getClipData().getItemAt(_index);
+							_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _item.getUri()));
+						}
+					}
+					else {
+						_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _data.getData()));
+					}
+				}
+				Uri uri = _data.getData();
+				quick_path = uri.getPath();
+				quick_path = quick_path.replace("document", "storage");
+				quick_path = quick_path.replace(":", "/");
+				i.putExtra("navigate", "quick");
+				i.putExtra("file_path", quick_path);
+				i.setClass(getApplicationContext(), CodeActivity.class);
+				startActivity(i);
+				finish();
 			}
 			else {
 				
@@ -393,23 +427,31 @@ public class ProjectsActivity extends AppCompatActivity {
 		
 		TextView t3 = (TextView) options.findViewById(R.id.textview3);
 		
+		TextView t4 = (TextView) options.findViewById(R.id.textview4);
+		
 		ImageView i1 = (ImageView) options.findViewById(R.id.imageview1);
 		
 		ImageView i2 = (ImageView) options.findViewById(R.id.imageview2);
 		
 		ImageView i3 = (ImageView) options.findViewById(R.id.imageview3);
 		
+		ImageView i4 = (ImageView) options.findViewById(R.id.imageview4);
+		
 		LinearLayout l1 = (LinearLayout) options.findViewById(R.id.linear1);
 		
 		LinearLayout l2 = (LinearLayout) options.findViewById(R.id.linear2);
 		
 		LinearLayout l3 = (LinearLayout) options.findViewById(R.id.linear3);
+		
+		LinearLayout l4 = (LinearLayout) options.findViewById(R.id.linear4);
 		t1.setText("Create New Project");
 		t2.setText("Import (or) Restore Project");
 		t3.setText("Add a non-green coder project");
+		t4.setText("Quick Edit");
 		t1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		t4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		{
 			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
 			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
@@ -438,6 +480,15 @@ public class ProjectsActivity extends AppCompatActivity {
 			l3.setBackground(SketchUiRD);
 			l3.setClickable(true);
 		}
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			l4.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l4.setBackground(SketchUiRD);
+			l4.setClickable(true);
+		}
 		l1.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();
 				_create_dialog();
@@ -449,6 +500,10 @@ public class ProjectsActivity extends AppCompatActivity {
 		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				create_opt.dismiss();
 				_chooseDirectory();
+			} });
+		l4.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				create_opt.dismiss();
+				startActivityForResult(quick, REQ_CD_QUICK);
 			} });
 		create_opt.show();
 	}
@@ -527,6 +582,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		LinearLayout l2 = (LinearLayout) option.findViewById(R.id.linear2);
 		
 		LinearLayout l3 = (LinearLayout) option.findViewById(R.id.linear3);
+		
+		LinearLayout l4 = (LinearLayout) option.findViewById(R.id.linear4);
 		t1.setText("Backup (or) Export");
 		t2.setText("Hide");
 		t3.setText("Delete");
@@ -536,6 +593,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		t1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		l4.setVisibility(View.GONE);
 		{
 			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
 			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;

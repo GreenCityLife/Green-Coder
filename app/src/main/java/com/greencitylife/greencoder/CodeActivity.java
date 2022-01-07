@@ -107,12 +107,22 @@ public class CodeActivity extends AppCompatActivity {
 			}
 		}
 		else {
-			setTitle(Uri.parse(file.getString("filepath", "")).getLastPathSegment());
-			_Subtitle(Uri.parse(file.getString("directory", "")).getLastPathSegment());
-			path = file.getString("filepath", "");
-			directory = file.getString("directory", "");
-			edittext1.setText(FileUtil.readFile(path));
-			edittext1.setVisibility(View.VISIBLE);
+			if (getIntent().getStringExtra("navigate").equals("quick")) {
+				setTitle(Uri.parse(getIntent().getStringExtra("file_path")).getLastPathSegment());
+				_Subtitle(getIntent().getStringExtra("file_path"));
+				path = getIntent().getStringExtra("file_path");
+				directory = getIntent().getStringExtra("file_path");
+				edittext1.setText(FileUtil.readFile(path));
+				edittext1.setVisibility(View.VISIBLE);
+			}
+			else {
+				setTitle(Uri.parse(file.getString("filepath", "")).getLastPathSegment());
+				_Subtitle(Uri.parse(file.getString("directory", "")).getLastPathSegment());
+				path = file.getString("filepath", "");
+				directory = file.getString("directory", "");
+				edittext1.setText(FileUtil.readFile(path));
+				edittext1.setVisibility(View.VISIBLE);
+			}
 		}
 		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/jetbrains_mono_regular.ttf"), 0);
 		getWindow().setStatusBarColor(0xFF212121);
