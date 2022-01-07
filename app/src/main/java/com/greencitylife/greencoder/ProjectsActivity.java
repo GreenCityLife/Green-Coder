@@ -59,6 +59,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String add_path = "";
 	private String new_project_path = "";
 	private String delete_path = "";
+	private String function_path = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
@@ -126,7 +127,7 @@ public class ProjectsActivity extends AppCompatActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
-				delete_path = projects.get((int)_position).get("path").toString();
+				function_path = projects.get((int)_position).get("path").toString();
 				_project_option();
 				return true;
 			}
@@ -357,10 +358,12 @@ public class ProjectsActivity extends AppCompatActivity {
 		for(int _repeat13 = 0; _repeat13 < (int)(all_files.size()); _repeat13++) {
 			if (FileUtil.isDirectory(all_files.get((int)(pos_af)))) {
 				if (FileUtil.isExistFile(all_files.get((int)(pos_af)).concat("/.gncode/index.json"))) {
-					add_project = new HashMap<>();
-					add_project.put("name", Uri.parse(all_files.get((int)(pos_af))).getLastPathSegment());
-					add_project.put("path", all_files.get((int)(pos_af)));
-					projects.add(add_project);
+					if (FileUtil.readFile(all_files.get((int)(pos_af)).concat("/.gncode/index.json")).contains("\"visible\":\"true\"")) {
+						add_project = new HashMap<>();
+						add_project.put("name", Uri.parse(all_files.get((int)(pos_af))).getLastPathSegment());
+						add_project.put("path", all_files.get((int)(pos_af)));
+						projects.add(add_project);
+					}
 				}
 			}
 			pos_af++;
@@ -567,11 +570,11 @@ public class ProjectsActivity extends AppCompatActivity {
 			} });
 		l2.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
-				startActivityForResult(imports, REQ_CD_IMPORTS);
+				_hide_project(function_path);
 			} });
 		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
-				_delete(delete_path);
+				_delete(function_path);
 			} });
 		pro_opt.show();
 	}
@@ -589,6 +592,26 @@ public class ProjectsActivity extends AppCompatActivity {
 			@Override
 			public void onClick(DialogInterface _dialog, int _which) {
 				FileUtil.deleteFile(_delete_path);
+				_refresher();
+			}
+		});
+		confirmation.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface _dialog, int _which) {
+				
+			}
+		});
+		confirmation.create().show();
+	}
+	
+	
+	private void _hide_project (final String _path) {
+		confirmation.setTitle("Hide Project?");
+		confirmation.setMessage("Are you sure, you want to hide this project? This is reversible though you need to edit some files to unhide again!!");
+		confirmation.setPositiveButton("Hide", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface _dialog, int _which) {
+				FileUtil.writeFile(function_path.concat("/.gncode/index.json"), FileUtil.readFile(function_path.concat("/.gncode/index.json")).replace("\"visible\":\"true\"", "\"visible\":\"false\""));
 				_refresher();
 			}
 		});
