@@ -26,6 +26,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.graphics.Typeface;
@@ -40,6 +44,7 @@ public class CodeActivity extends AppCompatActivity {
 	private Toolbar _toolbar;
 	private String directory = "";
 	private String path = "";
+	private boolean is_saved = false;
 	
 	private ArrayList<HashMap<String, Object>> render_data = new ArrayList<>();
 	
@@ -48,6 +53,7 @@ public class CodeActivity extends AppCompatActivity {
 	
 	private Intent i = new Intent();
 	private SharedPreferences file;
+	private AlertDialog.Builder confirm;
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -84,6 +90,25 @@ public class CodeActivity extends AppCompatActivity {
 		linear1 = (LinearLayout) findViewById(R.id.linear1);
 		edittext1 = (EditText) findViewById(R.id.edittext1);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
+		confirm = new AlertDialog.Builder(this);
+		
+		edittext1.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				final String _charSeq = _param1.toString();
+				is_saved = false;
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable _param1) {
+				
+			}
+		});
 	}
 	private void initializeLogic() {
 		edittext1.setVisibility(View.GONE);
@@ -97,6 +122,7 @@ public class CodeActivity extends AppCompatActivity {
 					path = render_data.get((int)2).get("opening_file").toString();
 					edittext1.setText(FileUtil.readFile(path));
 					edittext1.setVisibility(View.VISIBLE);
+					_srt(edittext1);
 				}
 				else {
 					SketchwareUtil.showMessage(getApplicationContext(), "Error: Path doesn't exist?");
@@ -122,6 +148,7 @@ public class CodeActivity extends AppCompatActivity {
 				directory = file.getString("directory", "");
 				edittext1.setText(FileUtil.readFile(path));
 				edittext1.setVisibility(View.VISIBLE);
+				_srt(edittext1);
 			}
 		}
 		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/jetbrains_mono_regular.ttf"), 0);
@@ -129,7 +156,6 @@ public class CodeActivity extends AppCompatActivity {
 		getWindow().setNavigationBarColor(0xFF212121);
 		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#212121")));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		_srt(edittext1);
 	}
 	@Override
 		public boolean onCreateOptionsMenu(Menu menu){
@@ -166,9 +192,46 @@ public class CodeActivity extends AppCompatActivity {
 		}
 	}
 	
+	@Override
+	public void onBackPressed() {
+		if (is_saved) {
+			i.setClass(getApplicationContext(), ProjectsActivity.class);
+			startActivity(i);
+			finish();
+		}
+		else {
+			confirm.setTitle("Changes");
+			confirm.setMessage("You made changes to some files and didn't save? Are you sure to leave changes not saved?");
+			confirm.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface _dialog, int _which) {
+					i.setClass(getApplicationContext(), ProjectsActivity.class);
+					startActivity(i);
+					finish();
+				}
+			});
+			confirm.setNegativeButton("Save and Exit", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface _dialog, int _which) {
+					_savefile();
+					i.setClass(getApplicationContext(), ProjectsActivity.class);
+					startActivity(i);
+					finish();
+				}
+			});
+			confirm.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface _dialog, int _which) {
+					
+				}
+			});
+			confirm.create().show();
+		}
+	}
 	private void _savefile () {
 		if (!path.equals("")) {
 			FileUtil.writeFile(path, edittext1.getText().toString());
+			is_saved = true;
 			SketchwareUtil.showMessage(getApplicationContext(), "Saved file successfully!");
 		}
 	}
