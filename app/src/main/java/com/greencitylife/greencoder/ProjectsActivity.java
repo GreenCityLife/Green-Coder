@@ -253,7 +253,7 @@ public class ProjectsActivity extends AppCompatActivity {
 					SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't add project, Directory not located in your project's path?");
 				}
 				else {
-					SketchwareUtil.showMessage(getApplicationContext(), "Will be soon!");
+					_refresher();
 				}
 			}
 			else {

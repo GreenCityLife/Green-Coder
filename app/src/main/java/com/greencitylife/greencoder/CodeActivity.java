@@ -28,8 +28,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.text.Editable;
-import android.text.TextWatcher;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.graphics.Typeface;
@@ -44,7 +42,6 @@ public class CodeActivity extends AppCompatActivity {
 	private Toolbar _toolbar;
 	private String directory = "";
 	private String path = "";
-	private boolean is_saved = false;
 	
 	private ArrayList<HashMap<String, Object>> render_data = new ArrayList<>();
 	
@@ -91,24 +88,6 @@ public class CodeActivity extends AppCompatActivity {
 		edittext1 = (EditText) findViewById(R.id.edittext1);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		confirm = new AlertDialog.Builder(this);
-		
-		edittext1.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
-				final String _charSeq = _param1.toString();
-				is_saved = false;
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable _param1) {
-				
-			}
-		});
 	}
 	private void initializeLogic() {
 		edittext1.setVisibility(View.GONE);
@@ -140,6 +119,7 @@ public class CodeActivity extends AppCompatActivity {
 				directory = getIntent().getStringExtra("file_path");
 				edittext1.setText(FileUtil.readFile(path));
 				edittext1.setVisibility(View.VISIBLE);
+				_srt(edittext1);
 			}
 			else {
 				setTitle(Uri.parse(file.getString("filepath", "")).getLastPathSegment());
@@ -156,6 +136,7 @@ public class CodeActivity extends AppCompatActivity {
 		getWindow().setNavigationBarColor(0xFF212121);
 		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#212121")));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		setTheme(android.R.style.Theme_Material);
 	}
 	@Override
 		public boolean onCreateOptionsMenu(Menu menu){
@@ -194,7 +175,7 @@ public class CodeActivity extends AppCompatActivity {
 	
 	@Override
 	public void onBackPressed() {
-		if (is_saved) {
+		if (FileUtil.readFile(path).equals(edittext1.getText().toString())) {
 			i.setClass(getApplicationContext(), ProjectsActivity.class);
 			startActivity(i);
 			finish();
@@ -231,18 +212,22 @@ public class CodeActivity extends AppCompatActivity {
 	private void _savefile () {
 		if (!path.equals("")) {
 			FileUtil.writeFile(path, edittext1.getText().toString());
-			is_saved = true;
 			SketchwareUtil.showMessage(getApplicationContext(), "Saved file successfully!");
 		}
 	}
 	
 	
 	private void _navigate () {
-		i.setClass(getApplicationContext(), NavigateActivity.class);
-		startActivity(i);
-		file.edit().putString("navigation", directory).commit();
-		finish();
-		overridePendingTransition(0,0);
+		if (FileUtil.isFile(directory)) {
+			SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't navigate when directory is a file!");
+		}
+		else {
+			i.setClass(getApplicationContext(), NavigateActivity.class);
+			startActivity(i);
+			file.edit().putString("navigation", directory).commit();
+			finish();
+			overridePendingTransition(0,0);
+		}
 	}
 	
 	
