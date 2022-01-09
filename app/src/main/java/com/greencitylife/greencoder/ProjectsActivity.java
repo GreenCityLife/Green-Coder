@@ -253,6 +253,34 @@ public class ProjectsActivity extends AppCompatActivity {
 					SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't add project, Directory not located in your project's path?");
 				}
 				else {
+					FileUtil.writeFile(add_path.concat("/index.txt"), "Hello World!");
+					index_json.clear();
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("title", "index.txt");
+						index_json.add(_item);
+					}
+					
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("visible", "true");
+						index_json.add(_item);
+					}
+					
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("opening_file", add_path.concat("/index.txt"));
+						index_json.add(_item);
+					}
+					
+					{
+						HashMap<String, Object> _item = new HashMap<>();
+						_item.put("directory", add_path);
+						index_json.add(_item);
+					}
+					
+					default_settings = new Gson().toJson(index_json);
+					FileUtil.writeFile(add_path.concat("/.gncode/index.json"), default_settings);
 					_refresher();
 				}
 			}
