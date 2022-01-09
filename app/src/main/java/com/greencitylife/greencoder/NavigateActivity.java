@@ -54,7 +54,6 @@ public class NavigateActivity extends AppCompatActivity {
 	private LinearLayout linear1;
 	private LinearLayout linear2;
 	private ListView listview1;
-	private ImageView imageview1;
 	private LinearLayout linear3;
 	private ImageView imageview2;
 	private TextView textview1;
@@ -87,7 +86,6 @@ public class NavigateActivity extends AppCompatActivity {
 		linear1 = (LinearLayout) findViewById(R.id.linear1);
 		linear2 = (LinearLayout) findViewById(R.id.linear2);
 		listview1 = (ListView) findViewById(R.id.listview1);
-		imageview1 = (ImageView) findViewById(R.id.imageview1);
 		linear3 = (LinearLayout) findViewById(R.id.linear3);
 		imageview2 = (ImageView) findViewById(R.id.imageview2);
 		textview1 = (TextView) findViewById(R.id.textview1);
@@ -111,15 +109,6 @@ public class NavigateActivity extends AppCompatActivity {
 					finish();
 					overridePendingTransition(0,0);
 				}
-			}
-		});
-		
-		imageview1.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				i.setClass(getApplicationContext(), CodeActivity.class);
-				startActivity(i);
-				finish();
 			}
 		});
 		
