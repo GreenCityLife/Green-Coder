@@ -43,12 +43,14 @@ import android.content.pm.PackageManager;
 public class SettingsActivity extends AppCompatActivity {
 	
 	public final int REQ_CD_DIRECTORYCHOOSER = 101;
+	public final int REQ_CD_FONT = 102;
 	
 	private Toolbar _toolbar;
 	private String projects_path = "";
 	private String versionName = "";
 	private String versionCode = "";
 	private boolean is_debug_log_enabled = false;
+	private String fontpath = "";
 	
 	private ArrayList<HashMap<String, Object>> api_list = new ArrayList<>();
 	
@@ -57,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
 	private TextView textview1;
 	private LinearLayout project_path;
 	private LinearLayout debug_log;
+	private LinearLayout font_path;
 	private TextView textview4;
 	private LinearLayout report_bug;
 	private LinearLayout git_repo;
@@ -71,6 +74,8 @@ public class SettingsActivity extends AppCompatActivity {
 	private Switch switch1;
 	private TextView textview18;
 	private TextView textview19;
+	private TextView textview20;
+	private TextView textview21;
 	private TextView textview5;
 	private TextView textview6;
 	private TextView textview7;
@@ -90,6 +95,7 @@ public class SettingsActivity extends AppCompatActivity {
 	private RequestNetwork api;
 	private RequestNetwork.RequestListener _api_request_listener;
 	private AlertDialog.Builder dialog;
+	private Intent font = new Intent(Intent.ACTION_GET_CONTENT);
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -127,6 +133,7 @@ public class SettingsActivity extends AppCompatActivity {
 		textview1 = (TextView) findViewById(R.id.textview1);
 		project_path = (LinearLayout) findViewById(R.id.project_path);
 		debug_log = (LinearLayout) findViewById(R.id.debug_log);
+		font_path = (LinearLayout) findViewById(R.id.font_path);
 		textview4 = (TextView) findViewById(R.id.textview4);
 		report_bug = (LinearLayout) findViewById(R.id.report_bug);
 		git_repo = (LinearLayout) findViewById(R.id.git_repo);
@@ -141,6 +148,8 @@ public class SettingsActivity extends AppCompatActivity {
 		switch1 = (Switch) findViewById(R.id.switch1);
 		textview18 = (TextView) findViewById(R.id.textview18);
 		textview19 = (TextView) findViewById(R.id.textview19);
+		textview20 = (TextView) findViewById(R.id.textview20);
+		textview21 = (TextView) findViewById(R.id.textview21);
 		textview5 = (TextView) findViewById(R.id.textview5);
 		textview6 = (TextView) findViewById(R.id.textview6);
 		textview7 = (TextView) findViewById(R.id.textview7);
@@ -158,6 +167,8 @@ public class SettingsActivity extends AppCompatActivity {
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		api = new RequestNetwork(this);
 		dialog = new AlertDialog.Builder(this);
+		font.setType("font/ttf");
+		font.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		
 		project_path.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -176,6 +187,13 @@ public class SettingsActivity extends AppCompatActivity {
 				else {
 					switch1.setChecked(true);
 				}
+			}
+		});
+		
+		font_path.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				_Font_picker();
 			}
 		});
 		
@@ -344,6 +362,36 @@ public class SettingsActivity extends AppCompatActivity {
 				
 			}
 			break;
+			
+			case REQ_CD_FONT:
+			if (_resultCode == Activity.RESULT_OK) {
+				ArrayList<String> _filePath = new ArrayList<>();
+				if (_data != null) {
+					if (_data.getClipData() != null) {
+						for (int _index = 0; _index < _data.getClipData().getItemCount(); _index++) {
+							ClipData.Item _item = _data.getClipData().getItemAt(_index);
+							_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _item.getUri()));
+						}
+					}
+					else {
+						_filePath.add(FileUtil.convertUriToFilePath(getApplicationContext(), _data.getData()));
+					}
+				}
+				Uri uri = _data.getData();
+				fontpath = uri.getPath();
+				fontpath = fontpath.replace("document", "storage");
+				fontpath = fontpath.replace(":", "/");
+				if (FileUtil.isExistFile(fontpath)) {
+					file.edit().putString("editor_font", fontpath).commit();
+				}
+				else {
+					SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't find path!");
+				}
+			}
+			else {
+				
+			}
+			break;
 			default:
 			break;
 		}
@@ -404,6 +452,8 @@ public class SettingsActivity extends AppCompatActivity {
 		textview17.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		textview18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview19.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview20.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
+		textview21.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 	}
 	
 	
@@ -460,6 +510,67 @@ public class SettingsActivity extends AppCompatActivity {
 		} else { 
 			return java.io.File.separator; 
 		} 
+	}
+	
+	
+	private void _Font_picker () {
+		final com.google.android.material.bottomsheet.BottomSheetDialog create_opt = new com.google.android.material.bottomsheet.BottomSheetDialog(SettingsActivity.this);
+		
+		View options;
+		options = getLayoutInflater().inflate(R.layout.option,null );
+		create_opt.setContentView(options);
+		
+		create_opt.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
+		TextView t1 = (TextView) options.findViewById(R.id.textview1);
+		
+		TextView t2 = (TextView) options.findViewById(R.id.textview2);
+		
+		ImageView i1 = (ImageView) options.findViewById(R.id.imageview1);
+		
+		ImageView i2 = (ImageView) options.findViewById(R.id.imageview2);
+		
+		LinearLayout l1 = (LinearLayout) options.findViewById(R.id.linear1);
+		
+		LinearLayout l2 = (LinearLayout) options.findViewById(R.id.linear2);
+		
+		LinearLayout l3 = (LinearLayout) options.findViewById(R.id.linear3);
+		
+		LinearLayout l4 = (LinearLayout) options.findViewById(R.id.linear4);
+		
+		t1.setText("Custom Font");
+		t2.setText("Default Font");
+		t1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		l3.setVisibility(View.GONE);
+		l4.setVisibility(View.GONE);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);SketchUi.setCornerRadii(new float[]{
+				d*40,d*40,d*40 ,d*40,d*0,d*0 ,d*0,d*0});
+			l1.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l1.setBackground(SketchUiRD);
+			l1.setClickable(true);
+		}
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			l2.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l2.setBackground(SketchUiRD);
+			l2.setClickable(true);
+		}
+		l1.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				create_opt.dismiss();
+				startActivityForResult(font, REQ_CD_FONT);
+			} });
+		l2.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				create_opt.dismiss();
+				file.edit().putString("editor_font", "default").commit();
+			} });
+		create_opt.show();
 	}
 	
 	

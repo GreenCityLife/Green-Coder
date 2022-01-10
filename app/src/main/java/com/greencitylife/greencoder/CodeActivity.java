@@ -20,6 +20,7 @@ import java.util.*;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.content.Intent;
@@ -42,10 +43,13 @@ public class CodeActivity extends AppCompatActivity {
 	private Toolbar _toolbar;
 	private String directory = "";
 	private String path = "";
+	private String editorfont = "";
 	
 	private ArrayList<HashMap<String, Object>> render_data = new ArrayList<>();
 	
+	private ScrollView vscroll1;
 	private LinearLayout linear1;
+	private LinearLayout linear3;
 	private EditText edittext1;
 	
 	private Intent i = new Intent();
@@ -84,7 +88,9 @@ public class CodeActivity extends AppCompatActivity {
 				onBackPressed();
 			}
 		});
+		vscroll1 = (ScrollView) findViewById(R.id.vscroll1);
 		linear1 = (LinearLayout) findViewById(R.id.linear1);
+		linear3 = (LinearLayout) findViewById(R.id.linear3);
 		edittext1 = (EditText) findViewById(R.id.edittext1);
 		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		confirm = new AlertDialog.Builder(this);
@@ -101,7 +107,6 @@ public class CodeActivity extends AppCompatActivity {
 					path = render_data.get((int)2).get("opening_file").toString();
 					edittext1.setText(FileUtil.readFile(path));
 					edittext1.setVisibility(View.VISIBLE);
-					_srt(edittext1);
 				}
 				else {
 					SketchwareUtil.showMessage(getApplicationContext(), "Error: Path doesn't exist?");
@@ -119,7 +124,6 @@ public class CodeActivity extends AppCompatActivity {
 				directory = getIntent().getStringExtra("file_path");
 				edittext1.setText(FileUtil.readFile(path));
 				edittext1.setVisibility(View.VISIBLE);
-				_srt(edittext1);
 			}
 			else {
 				setTitle(Uri.parse(file.getString("filepath", "")).getLastPathSegment());
@@ -128,10 +132,16 @@ public class CodeActivity extends AppCompatActivity {
 				directory = file.getString("directory", "");
 				edittext1.setText(FileUtil.readFile(path));
 				edittext1.setVisibility(View.VISIBLE);
-				_srt(edittext1);
 			}
 		}
-		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/jetbrains_mono_regular.ttf"), 0);
+		if (file.getString("editor_font", "").equals("default")) {
+			edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/jetbrains_mono_regular.ttf"), 0);
+		}
+		else {
+			editorfont = file.getString("editor_font", "");
+			edittext1.setTypeface(Typeface.createFromFile(editorfont));
+		}
+		_srt(edittext1);
 		getWindow().setStatusBarColor(0xFF212121);
 		getWindow().setNavigationBarColor(0xFF212121);
 		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#212121")));
