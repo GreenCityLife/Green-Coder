@@ -708,6 +708,7 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_backup.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_hide.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_quick.png \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/drawable-xhdpi/ic_open.png \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/colors.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/styles.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/values/strings.xml \

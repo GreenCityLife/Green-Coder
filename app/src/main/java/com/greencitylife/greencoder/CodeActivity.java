@@ -44,6 +44,7 @@ public class CodeActivity extends AppCompatActivity {
 	private String directory = "";
 	private String path = "";
 	private String editorfont = "";
+	private double number = 0;
 	
 	private ArrayList<HashMap<String, Object>> render_data = new ArrayList<>();
 	

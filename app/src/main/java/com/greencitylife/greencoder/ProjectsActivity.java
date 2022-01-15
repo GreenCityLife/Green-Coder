@@ -599,11 +599,15 @@ public class ProjectsActivity extends AppCompatActivity {
 		
 		TextView t3 = (TextView) option.findViewById(R.id.textview3);
 		
+		TextView t4 = (TextView) option.findViewById(R.id.textview4);
+		
 		ImageView i1 = (ImageView) option.findViewById(R.id.imageview1);
 		
 		ImageView i2 = (ImageView) option.findViewById(R.id.imageview2);
 		
 		ImageView i3 = (ImageView) option.findViewById(R.id.imageview3);
+		
+		ImageView i4 = (ImageView) option.findViewById(R.id.imageview3);
 		
 		LinearLayout l1 = (LinearLayout) option.findViewById(R.id.linear1);
 		
@@ -612,16 +616,18 @@ public class ProjectsActivity extends AppCompatActivity {
 		LinearLayout l3 = (LinearLayout) option.findViewById(R.id.linear3);
 		
 		LinearLayout l4 = (LinearLayout) option.findViewById(R.id.linear4);
-		t1.setText("Backup (or) Export");
-		t2.setText("Hide");
-		t3.setText("Delete");
-		i1.setImageResource(R.drawable.ic_backup);
-		i2.setImageResource(R.drawable.ic_hide);
-		i3.setImageResource(R.drawable.ic_delete);
+		t1.setText("Open");
+		t2.setText("Backup (or) Export");
+		t3.setText("Hide");
+		t4.setText("Delete");
+		i1.setImageResource(R.drawable.ic_open);
+		i2.setImageResource(R.drawable.ic_backup);
+		i3.setImageResource(R.drawable.ic_hide);
+		i4.setImageResource(R.drawable.ic_delete);
 		t1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
-		l4.setVisibility(View.GONE);
+		t4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		{
 			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
 			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
@@ -650,15 +656,32 @@ public class ProjectsActivity extends AppCompatActivity {
 			l3.setBackground(SketchUiRD);
 			l3.setClickable(true);
 		}
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			l4.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l4.setBackground(SketchUiRD);
+			l4.setClickable(true);
+		}
 		l1.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
-				_backup();
+				i.putExtra("navigate", "false");
+				i.putExtra("project_path", function_path);
+				i.setClass(getApplicationContext(), CodeActivity.class);
+				startActivity(i);
+				finish();
 			} });
 		l2.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
-				_hide_project(function_path);
+				_backup();
 			} });
 		l3.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				pro_opt.dismiss();
+				_hide_project(function_path);
+			} });
+		l4.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
 				_delete(function_path);
 			} });

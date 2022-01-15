@@ -53,12 +53,14 @@ public class SettingsActivity extends AppCompatActivity {
 	private String fontpath = "";
 	
 	private ArrayList<HashMap<String, Object>> api_list = new ArrayList<>();
+	private ArrayList<String> font_sizes = new ArrayList<>();
 	
 	private ScrollView vscroll1;
 	private LinearLayout linear1;
 	private TextView textview1;
 	private LinearLayout project_path;
 	private LinearLayout debug_log;
+	private TextView textview22;
 	private LinearLayout font_path;
 	private TextView textview4;
 	private LinearLayout report_bug;
@@ -133,6 +135,7 @@ public class SettingsActivity extends AppCompatActivity {
 		textview1 = (TextView) findViewById(R.id.textview1);
 		project_path = (LinearLayout) findViewById(R.id.project_path);
 		debug_log = (LinearLayout) findViewById(R.id.debug_log);
+		textview22 = (TextView) findViewById(R.id.textview22);
 		font_path = (LinearLayout) findViewById(R.id.font_path);
 		textview4 = (TextView) findViewById(R.id.textview4);
 		report_bug = (LinearLayout) findViewById(R.id.report_bug);
@@ -314,6 +317,7 @@ public class SettingsActivity extends AppCompatActivity {
 		_rippleRoundStroke(version, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(clog, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(debug_log, "#212121", "#e0e0e0", 0, 0, "#212121");
+		_rippleRoundStroke(font_path, "#212121", "#e0e0e0", 0, 0, "#212121");
 		String versionName = "null";
 		int versionCode = -1;
 		try {
@@ -436,6 +440,7 @@ public class SettingsActivity extends AppCompatActivity {
 		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview13.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
+		textview22.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		textview5.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
