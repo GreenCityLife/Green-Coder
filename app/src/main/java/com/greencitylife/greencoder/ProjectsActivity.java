@@ -607,7 +607,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		
 		ImageView i3 = (ImageView) option.findViewById(R.id.imageview3);
 		
-		ImageView i4 = (ImageView) option.findViewById(R.id.imageview3);
+		ImageView i4 = (ImageView) option.findViewById(R.id.imageview4);
 		
 		LinearLayout l1 = (LinearLayout) option.findViewById(R.id.linear1);
 		
