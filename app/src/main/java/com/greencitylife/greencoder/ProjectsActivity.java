@@ -692,6 +692,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	
 	
 	private void _backup () {
+		FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.gncode/Backups/"), "");
 		_zipDirectory(function_path, FileUtil.getExternalStorageDir().concat("/.gncode/Backups/").concat(function_name.concat(".zip")));
 	}
 	
@@ -776,6 +777,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		
 		protected void onProgressUpdate(String... values) {
 			//ℹ️ Change textview to a textview that will print the log
+			SketchwareUtil.showMessage(getApplicationContext(), ("📝 Adding: " + values[0]));
 		}
 		
 		protected void onPostExecute(Void param){
