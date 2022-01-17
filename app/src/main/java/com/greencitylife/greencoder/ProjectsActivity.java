@@ -62,6 +62,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String delete_path = "";
 	private String function_path = "";
 	private String quick_path = "";
+	private String function_name = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
@@ -133,6 +134,7 @@ public class ProjectsActivity extends AppCompatActivity {
 			public boolean onItemLongClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
 				function_path = projects.get((int)_position).get("path").toString();
+				function_name = projects.get((int)_position).get("name").toString();
 				_project_option();
 				return true;
 			}
@@ -690,7 +692,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	
 	
 	private void _backup () {
-		
+		_zipDirectory(function_path, FileUtil.getExternalStorageDir().concat("/.gncode/Backups/").concat(function_name.concat(".zip")));
 	}
 	
 	
@@ -731,6 +733,112 @@ public class ProjectsActivity extends AppCompatActivity {
 			}
 		});
 		confirmation.create().show();
+	}
+	
+	
+	private void _zipDirectory (final String _sourcePath, final String _destPath) {
+		//❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
+		//Needed for zipper more block
+		//❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
+		
+		verifyStoragePermissions();
+		String dir = _sourcePath;
+		String zipDirName = _destPath;
+		//zipDirectory(dir, zipDirName);
+		zd = new ZipDirectory();
+		zd.execute(dir, zipDirName);
+	}
+	ZipDirectory zd;
+	
+	//ℹ️ Verify Storage Permissions
+	public void verifyStoragePermissions() { // Check if we have write permission 
+		int permission = androidx.core.app.ActivityCompat.checkSelfPermission(ProjectsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE); 
+		if (permission != PackageManager.PERMISSION_GRANTED) { 
+			// We don't have permission so prompt the user 
+			androidx.core.app.ActivityCompat.requestPermissions(ProjectsActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE }, 101 ); 
+		}
+	}
+	
+	class ZipDirectory extends AsyncTask<String, String, Void> {
+		public String source = null;
+		public String dest = null;
+		
+		protected void onPreExecute() {
+			SketchwareUtil.showMessage(getApplicationContext(), "❗Starting to backup...");
+		}
+		
+		protected Void doInBackground(String... path) {
+			this.dest = path[1];
+			this.source = path[0];
+			zipDirectory(this.source, this.dest);
+			return null;
+		}
+		
+		protected void onProgressUpdate(String... values) {
+			//ℹ️ Change textview to a textview that will print the log
+		}
+		
+		protected void onPostExecute(Void param){
+			//ℹ️ Change textview to a textview that will print the log
+			SketchwareUtil.showMessage(getApplicationContext(), "✅ Backuped to ".concat(FileUtil.getExternalStorageDir().concat("/.gncode/Backups")));
+			
+		}
+		
+		protected void onCancelled(){
+			SketchwareUtil.showMessage(getApplicationContext(), "❌ Failed to Backup");
+			
+		}
+		
+		List<String> filesListInDir = new ArrayList<String>();
+		
+		private void zipDirectory(String dir, String zipDirName) {
+			try {
+				populateFilesList(dir);
+				
+				java.io.File sFile = new java.io.File(zipDirName);
+				sFile.createNewFile();
+				java.io.FileOutputStream fos = new java.io.FileOutputStream(zipDirName);
+				java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(fos);
+				for(String filePath : filesListInDir){
+					if (isCancelled()){
+						publishProgress((String)"🚫 Canceling!");
+						break;
+					}
+					publishProgress((String)filePath);
+					java.util.zip.ZipEntry ze = new java.util.zip.ZipEntry(filePath.substring(dir.length()+1, filePath.length()));
+					zos.putNextEntry(ze);
+					java.io.FileInputStream fis = new java.io.FileInputStream(filePath);
+					byte[] buffer = new byte[1024];
+					int len;
+					while ((len = fis.read(buffer)) > 0) {
+						zos.write(buffer, 0, len);
+					}
+					zos.closeEntry();
+					fis.close();
+				}
+				zos.close();
+				fos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				SketchwareUtil.showMessage(getApplicationContext(), (e.toString()));
+				cancel(true);
+			}finally{
+			}
+		}
+		
+		private void populateFilesList(String dir){
+			ArrayList<String> cc = new ArrayList<String>();
+			FileUtil.listDir(dir,cc);
+			//FileUtil.isDirectory(path);
+			for(String filepath : cc){
+				if(FileUtil.isFile(filepath)) {
+					filesListInDir.add(filepath);
+				}else {
+					populateFilesList(filepath);
+				}
+			}
+		}
+		
 	}
 	
 	
