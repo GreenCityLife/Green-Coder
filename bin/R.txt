@@ -1195,8 +1195,8 @@ int id textview2 0x7f0800a3
 int id textview20 0x7f0800d3
 int id textview21 0x7f0800d4
 int id textview22 0x7f0800d1
-int id textview3 0x7f0800a5
-int id textview4 0x7f0800a6
+int id textview3 0x7f0800a6
+int id textview4 0x7f0800a5
 int id textview5 0x7f0800aa
 int id textview6 0x7f0800ac
 int id textview7 0x7f0800d7

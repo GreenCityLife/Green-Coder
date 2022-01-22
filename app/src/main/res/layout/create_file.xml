@@ -62,21 +62,21 @@
 				android:orientation="horizontal"
 				android:layout_weight="1"/>
 			<TextView
-				android:id="@+id/textview3"
-				android:focusable="false"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:padding="8dp"
-				android:text="Create"
-				android:textSize="12sp"
-				android:textColor="#FFFFFF"/>
-			<TextView
 				android:id="@+id/textview4"
 				android:focusable="false"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				android:text="Nevermind"
+				android:textSize="12sp"
+				android:textColor="#FFFFFF"/>
+			<TextView
+				android:id="@+id/textview3"
+				android:focusable="false"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Create"
 				android:textSize="12sp"
 				android:textColor="#FFFFFF"/>
 		</LinearLayout>

@@ -4787,8 +4787,8 @@ containing a value of this type.
         public static int textview20=0x7f0800d3;
         public static int textview21=0x7f0800d4;
         public static int textview22=0x7f0800d1;
-        public static int textview3=0x7f0800a5;
-        public static int textview4=0x7f0800a6;
+        public static int textview3=0x7f0800a6;
+        public static int textview4=0x7f0800a5;
         public static int textview5=0x7f0800aa;
         public static int textview6=0x7f0800ac;
         public static int textview7=0x7f0800d7;
