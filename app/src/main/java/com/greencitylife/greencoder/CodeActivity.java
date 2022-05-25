@@ -135,13 +135,7 @@ public class CodeActivity extends AppCompatActivity {
 				edittext1.setVisibility(View.VISIBLE);
 			}
 		}
-		if (file.getString("editor_font", "").equals("default")) {
-			edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/jetbrains_mono_regular.ttf"), 0);
-		}
-		else {
-			editorfont = file.getString("editor_font", "");
-			edittext1.setTypeface(Typeface.createFromFile(editorfont));
-		}
+		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/jetbrains_mono_regular.ttf"), 0);
 		_srt(edittext1);
 		getWindow().setStatusBarColor(0xFF212121);
 		getWindow().setNavigationBarColor(0xFF212121);
