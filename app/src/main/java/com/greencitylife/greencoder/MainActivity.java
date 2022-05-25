@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
 				FileUtil.makeDir(FileUtil.getExternalStorageDir().concat("/Projects/"));
 			}
 		}
+		if (file.getString("editor_font", "").equals("")) {
+			file.edit().putString("editor_font", "default").commit();
+		}
 	}
 	
 	@Override

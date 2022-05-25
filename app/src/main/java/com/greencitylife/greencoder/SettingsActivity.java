@@ -354,6 +354,7 @@ public class SettingsActivity extends AppCompatActivity {
 				projects_path = uri.getPath();
 				projects_path = projects_path.replace("tree", "storage");
 				projects_path = projects_path.replace(":", "/");
+				projects_path = projects_path.replace("primary", "emulated/0");
 				if (FileUtil.isExistFile(projects_path)) {
 					textview3.setText(projects_path);
 					file.edit().putString("path", projects_path).commit();
@@ -385,6 +386,7 @@ public class SettingsActivity extends AppCompatActivity {
 				fontpath = uri.getPath();
 				fontpath = fontpath.replace("document", "storage");
 				fontpath = fontpath.replace(":", "/");
+				fontpath = fontpath.replace("primary", "emulated/0");
 				if (FileUtil.isExistFile(fontpath)) {
 					file.edit().putString("editor_font", fontpath).commit();
 				}
