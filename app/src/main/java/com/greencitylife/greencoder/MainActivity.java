@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 	
 	private Timer _timer = new Timer();
 	
+	private String splash = "";
+	
 	private LinearLayout linear1;
 	private ImageView imageview1;
 	private TextView textview1;
@@ -99,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
 		}
 		if (file.getString("editor_font", "").equals("")) {
 			file.edit().putString("editor_font", "default").commit();
+		}
+		if (!FileUtil.isExistFile("/storage/emulated/0/.gncode")) {
+			splash = "[{\"0\":\"Made with Orginal Sketchware!\"},{\"1\":\"OMG OMG!!\"},{\"2\":\"Bro, Why don't you take rest?\"},{\"3\":\"Made by GreenCityLife!\"},{\"4\":\"Practise makes a man perfect!\"},{\"5\":\"Programming is thinking, not typing\"},{\"6\":\"Teamwork makes the Dreamwork!\"}]";
+			FileUtil.writeFile("/storage/emulated/0/.gncode/splash_screen.json", splash);
 		}
 	}
 	

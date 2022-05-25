@@ -38,6 +38,7 @@ import android.widget.AdapterView;
 import android.view.View;
 import com.google.gson.Gson;
 import android.graphics.Typeface;
+import com.google.gson.reflect.TypeToken;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
@@ -63,10 +64,12 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String function_path = "";
 	private String quick_path = "";
 	private String function_name = "";
+	private double randomness = 0;
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
 	private ArrayList<HashMap<String, Object>> index_json = new ArrayList<>();
+	private ArrayList<HashMap<String, Object>> random = new ArrayList<>();
 	
 	private LinearLayout linear2;
 	private ListView listview1;
@@ -155,6 +158,14 @@ public class ProjectsActivity extends AppCompatActivity {
 		getSupportActionBar().setElevation(0);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#000000")));
+		if (FileUtil.isExistFile("/storage/emulated/0/.gncode/splash_screen.json")) {
+			random = new Gson().fromJson(FileUtil.readFile("/storage/emulated/0/.gncode/splash_screen.json"), new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
+			randomness = SketchwareUtil.getRandom((int)(0), (int)(6));
+			_Subtitle(random.get((int)randomness).get(String.valueOf((long)(randomness))).toString());
+		}
+		else {
+			_Subtitle("Missingno");
+		}
 		setTheme(android.R.style.Theme_Material);
 		if (!file.getString("path", "").equals("")) {
 			if (FileUtil.isExistFile(file.getString("path", "").trim())) {
@@ -841,6 +852,11 @@ public class ProjectsActivity extends AppCompatActivity {
 			}
 		}
 		
+	}
+	
+	
+	private void _Subtitle (final String _text) {
+		getSupportActionBar().setSubtitle(_text);
 	}
 	
 	
