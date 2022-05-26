@@ -65,6 +65,7 @@ public class ProjectsActivity extends AppCompatActivity {
 	private String quick_path = "";
 	private String function_name = "";
 	private double randomness = 0;
+	private String remove_path = "";
 	
 	private ArrayList<HashMap<String, Object>> projects = new ArrayList<>();
 	private ArrayList<String> all_files = new ArrayList<>();
@@ -237,7 +238,8 @@ public class ProjectsActivity extends AppCompatActivity {
 				import_path = uri.getPath();
 				import_path = import_path.replace("document", "storage");
 				import_path = import_path.replace(":", "/");
-				SketchwareUtil.showMessage(getApplicationContext(), "Error: Importing projects, Unsupported Zip file.");
+				import_path = import_path.replace("primary", "emulated/0");
+				SketchwareUtil.showMessage(getApplicationContext(), "Coming Soon! For now, you need to manually unzip");
 			}
 			else {
 				
@@ -485,6 +487,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		LinearLayout l3 = (LinearLayout) options.findViewById(R.id.linear3);
 		
 		LinearLayout l4 = (LinearLayout) options.findViewById(R.id.linear4);
+		
+		LinearLayout l5 = (LinearLayout) options.findViewById(R.id.linear5);
 		t1.setText("Create New Project");
 		t2.setText("Import (or) Restore Project");
 		t3.setText("Add a non-green coder project");
@@ -493,6 +497,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		l5.setVisibility(View.GONE);
 		{
 			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
 			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
@@ -614,6 +619,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		
 		TextView t4 = (TextView) option.findViewById(R.id.textview4);
 		
+		TextView t5 = (TextView) option.findViewById(R.id.textview5);
+		
 		ImageView i1 = (ImageView) option.findViewById(R.id.imageview1);
 		
 		ImageView i2 = (ImageView) option.findViewById(R.id.imageview2);
@@ -622,6 +629,8 @@ public class ProjectsActivity extends AppCompatActivity {
 		
 		ImageView i4 = (ImageView) option.findViewById(R.id.imageview4);
 		
+		ImageView i5 = (ImageView) option.findViewById(R.id.imageview5);
+		
 		LinearLayout l1 = (LinearLayout) option.findViewById(R.id.linear1);
 		
 		LinearLayout l2 = (LinearLayout) option.findViewById(R.id.linear2);
@@ -629,10 +638,13 @@ public class ProjectsActivity extends AppCompatActivity {
 		LinearLayout l3 = (LinearLayout) option.findViewById(R.id.linear3);
 		
 		LinearLayout l4 = (LinearLayout) option.findViewById(R.id.linear4);
+		
+		LinearLayout l5 = (LinearLayout) option.findViewById(R.id.linear5);
 		t1.setText("Open");
 		t2.setText("Backup (or) Export");
 		t3.setText("Hide");
 		t4.setText("Delete");
+		t5.setText("Remove");
 		i1.setImageResource(R.drawable.ic_open);
 		i2.setImageResource(R.drawable.ic_backup);
 		i3.setImageResource(R.drawable.ic_hide);
@@ -641,6 +653,7 @@ public class ProjectsActivity extends AppCompatActivity {
 		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		t5.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		{
 			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
 			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
@@ -678,6 +691,15 @@ public class ProjectsActivity extends AppCompatActivity {
 			l4.setBackground(SketchUiRD);
 			l4.setClickable(true);
 		}
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			l5.setElevation(d*5);
+			android.graphics.drawable.RippleDrawable SketchUiRD = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0xFFE0E0E0}), SketchUi, null);
+			l5.setBackground(SketchUiRD);
+			l5.setClickable(true);
+		}
 		l1.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
 				i.putExtra("navigate", "false");
@@ -697,6 +719,10 @@ public class ProjectsActivity extends AppCompatActivity {
 		l4.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
 				pro_opt.dismiss();
 				_delete(function_path);
+			} });
+		l5.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				pro_opt.dismiss();
+				_remove(function_path);
 			} });
 		pro_opt.show();
 	}
@@ -857,6 +883,18 @@ public class ProjectsActivity extends AppCompatActivity {
 	
 	private void _Subtitle (final String _text) {
 		getSupportActionBar().setSubtitle(_text);
+	}
+	
+	
+	private void _remove (final String _path) {
+		remove_path = _path.concat("/.gncode");
+		if (FileUtil.isExistFile(remove_path)) {
+			FileUtil.deleteFile(remove_path);
+		}
+		else {
+			SketchwareUtil.showMessage(getApplicationContext(), "Error: Path doesn't exist?");
+		}
+		_refresher();
 	}
 	
 	
