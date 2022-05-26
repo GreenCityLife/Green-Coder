@@ -264,6 +264,7 @@ public class ProjectsActivity extends AppCompatActivity {
 				add_path = uri.getPath();
 				add_path = add_path.replace("tree", "storage");
 				add_path = add_path.replace(":", "/");
+				add_path = add_path.replace("primary", "emulated/0");
 				if (!add_path.contains(file.getString("path", ""))) {
 					SketchwareUtil.showMessage(getApplicationContext(), "Error: Can't add project, Directory not located in your project's path?");
 				}

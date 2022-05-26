@@ -221,7 +221,7 @@ public class SettingsActivity extends AppCompatActivity {
 		help.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				SketchwareUtil.showMessage(getApplicationContext(), "Coming soon!");
 			}
 		});
 		
