@@ -544,12 +544,15 @@ public class SettingsActivity extends AppCompatActivity {
 		
 		LinearLayout l4 = (LinearLayout) options.findViewById(R.id.linear4);
 		
+		LinearLayout l5 = (LinearLayout) options.findViewById(R.id.linear5);
+		
 		t1.setText("Custom Font");
 		t2.setText("Default Font");
 		t1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		t2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		l3.setVisibility(View.GONE);
 		l4.setVisibility(View.GONE);
+		l5.setVisibility(View.GONE);
 		{
 			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
 			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
