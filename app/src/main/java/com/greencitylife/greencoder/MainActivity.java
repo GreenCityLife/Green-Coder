@@ -26,6 +26,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.animation.ObjectAnimator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.graphics.Typeface;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 	private TimerTask t;
 	private Intent i = new Intent();
 	private SharedPreferences file;
+	private ObjectAnimator animator = new ObjectAnimator();
+	private ObjectAnimator animator2 = new ObjectAnimator();
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -77,6 +85,14 @@ public class MainActivity extends AppCompatActivity {
 		getWindow().setStatusBarColor(0xFF212121);
 		getWindow().setNavigationBarColor(0xFF212121);
 		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		animator.setTarget(textview1);
+		animator.setPropertyName("translationY");
+		animator.setFloatValues((float)(575), (float)(-50));
+		animator2.setTarget(imageview1);
+		animator2.setPropertyName("translationY");
+		animator2.setFloatValues((float)(-475), (float)(0));
+		animator.start();
+		animator2.start();
 		t = new TimerTask() {
 			@Override
 			public void run() {

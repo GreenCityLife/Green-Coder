@@ -328,6 +328,7 @@ public class SettingsActivity extends AppCompatActivity {
 			e.printStackTrace();
 		}
 		textview15.setText(versionName);
+		versionName = "0.1.4 alpha";
 		setTheme(android.R.style.Theme_Material);
 	}
 	

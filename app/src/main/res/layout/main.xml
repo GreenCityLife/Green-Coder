@@ -18,7 +18,8 @@
 			android:layout_width="250dp"
 			android:layout_height="250dp"
 			android:src="@drawable/app_image"
-			android:scaleType="fitXY"/>
+			android:scaleType="fitXY"
+			android:translationY="-475.0dp"/>
 		<TextView
 			android:id="@+id/textview1"
 			android:layout_width="wrap_content"
@@ -27,6 +28,6 @@
 			android:text="Green Coder"
 			android:textSize="20sp"
 			android:textColor="#FFFFFF"
-			android:translationY="-50.0dp"/>
+			android:translationY="575.0dp"/>
 	</LinearLayout>
 </LinearLayout>
