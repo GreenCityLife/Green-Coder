@@ -53,6 +53,10 @@
 			android:screenOrientation="portrait"
 			android:windowSoftInputMode="stateHidden"/>
 		<activity
+			android:name=".ThemeActivity"
+			android:configChanges="orientation|screenSize"
+			android:screenOrientation="portrait"/>
+		<activity
 			android:name=".DebugActivity"
 			android:screenOrientation="portrait"/>
 		<uses-library

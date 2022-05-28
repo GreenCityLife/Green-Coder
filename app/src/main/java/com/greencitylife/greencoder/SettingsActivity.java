@@ -62,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
 	private LinearLayout debug_log;
 	private TextView textview22;
 	private LinearLayout font_path;
+	private LinearLayout theme;
 	private TextView textview4;
 	private LinearLayout report_bug;
 	private LinearLayout git_repo;
@@ -78,6 +79,8 @@ public class SettingsActivity extends AppCompatActivity {
 	private TextView textview19;
 	private TextView textview20;
 	private TextView textview21;
+	private TextView textview23;
+	private TextView textview24;
 	private TextView textview5;
 	private TextView textview6;
 	private TextView textview7;
@@ -137,6 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
 		debug_log = (LinearLayout) findViewById(R.id.debug_log);
 		textview22 = (TextView) findViewById(R.id.textview22);
 		font_path = (LinearLayout) findViewById(R.id.font_path);
+		theme = (LinearLayout) findViewById(R.id.theme);
 		textview4 = (TextView) findViewById(R.id.textview4);
 		report_bug = (LinearLayout) findViewById(R.id.report_bug);
 		git_repo = (LinearLayout) findViewById(R.id.git_repo);
@@ -153,6 +157,8 @@ public class SettingsActivity extends AppCompatActivity {
 		textview19 = (TextView) findViewById(R.id.textview19);
 		textview20 = (TextView) findViewById(R.id.textview20);
 		textview21 = (TextView) findViewById(R.id.textview21);
+		textview23 = (TextView) findViewById(R.id.textview23);
+		textview24 = (TextView) findViewById(R.id.textview24);
 		textview5 = (TextView) findViewById(R.id.textview5);
 		textview6 = (TextView) findViewById(R.id.textview6);
 		textview7 = (TextView) findViewById(R.id.textview7);
@@ -197,6 +203,16 @@ public class SettingsActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				_Font_picker();
+			}
+		});
+		
+		theme.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				i.setAction(Intent.ACTION_VIEW);
+				i.setClass(getApplicationContext(), ThemeActivity.class);
+				startActivity(i);
+				finish();
 			}
 		});
 		
@@ -318,6 +334,7 @@ public class SettingsActivity extends AppCompatActivity {
 		_rippleRoundStroke(clog, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(debug_log, "#212121", "#e0e0e0", 0, 0, "#212121");
 		_rippleRoundStroke(font_path, "#212121", "#e0e0e0", 0, 0, "#212121");
+		_rippleRoundStroke(theme, "#212121", "#e0e0e0", 0, 0, "#212121");
 		String versionName = "null";
 		int versionCode = -1;
 		try {
@@ -327,8 +344,8 @@ public class SettingsActivity extends AppCompatActivity {
 		} catch (android.content.pm.PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 		}
-		textview15.setText(versionName);
 		versionName = "0.1.4 alpha";
+		textview15.setText(versionName);
 		setTheme(android.R.style.Theme_Material);
 	}
 	
@@ -462,6 +479,8 @@ public class SettingsActivity extends AppCompatActivity {
 		textview19.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		textview20.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview21.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview23.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
+		textview24.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 	}
 	
 	

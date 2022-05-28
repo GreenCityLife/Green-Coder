@@ -683,6 +683,7 @@
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/debug.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/settings.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/refresh.xml \
+/storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/theme.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/create_file.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/navigate_item.xml \
 /storage/emulated/0/.sketchware/mysc/713/app/src/main/res/layout/project_item.xml \
