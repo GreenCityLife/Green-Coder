@@ -30,6 +30,10 @@ public class ThemeActivity extends AppCompatActivity {
 	
 	private Toolbar _toolbar;
 	private boolean is_expanded = false;
+	private String bc_data = "";
+	private String main_data = "";
+	private String sec_data = "";
+	private String desc_data = "";
 	
 	private ScrollView vscroll1;
 	private LinearLayout linear1;
@@ -53,13 +57,13 @@ public class ThemeActivity extends AppCompatActivity {
 	private TextView textview9;
 	private TextView textview13;
 	private ImageView imageview1;
-	private TextView textview10;
-	private TextView textview11;
-	private TextView textview12;
 	private TextView textview14;
 	private LinearLayout preview_option;
 	private TextView textview15;
 	private TextView textview16;
+	private TextView textview10;
+	private TextView textview11;
+	private TextView textview12;
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -102,39 +106,39 @@ public class ThemeActivity extends AppCompatActivity {
 		textview9 = (TextView) findViewById(R.id.textview9);
 		textview13 = (TextView) findViewById(R.id.textview13);
 		imageview1 = (ImageView) findViewById(R.id.imageview1);
-		textview10 = (TextView) findViewById(R.id.textview10);
-		textview11 = (TextView) findViewById(R.id.textview11);
-		textview12 = (TextView) findViewById(R.id.textview12);
 		textview14 = (TextView) findViewById(R.id.textview14);
 		preview_option = (LinearLayout) findViewById(R.id.preview_option);
 		textview15 = (TextView) findViewById(R.id.textview15);
 		textview16 = (TextView) findViewById(R.id.textview16);
+		textview10 = (TextView) findViewById(R.id.textview10);
+		textview11 = (TextView) findViewById(R.id.textview11);
+		textview12 = (TextView) findViewById(R.id.textview12);
 		
 		bc_color.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				_bc_dialog();
 			}
 		});
 		
 		main_color.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				_main_dialog();
 			}
 		});
 		
 		second_color.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				_sec_dialog();
 			}
 		});
 		
 		desc_color.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				_desc_dialog();
 			}
 		});
 		
@@ -245,6 +249,239 @@ public class ThemeActivity extends AppCompatActivity {
 		Color.parseColor("#" + _strokeclr.replace("#", "")));
 		android.graphics.drawable.RippleDrawable RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor(_pressed)}), GG, null);
 		_view.setBackground(RE);
+	}
+	
+	
+	private void _bc_dialog () {
+		final AlertDialog bc = new AlertDialog.Builder(ThemeActivity.this).create();
+		View options = getLayoutInflater().inflate(R.layout.create_file,null); 
+		bc.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		bc.setView(options);
+		TextView ok = (TextView) options.findViewById(R.id.textview3);
+		
+		TextView cancel = (TextView) options.findViewById(R.id.textview4);
+		
+		TextView title = (TextView) options.findViewById(R.id.textview1);
+		
+		TextView message = (TextView) options.findViewById(R.id.textview2);
+		
+		LinearLayout bg = (LinearLayout) options.findViewById(R.id.linear1);
+		
+		final LinearLayout linear6 = (LinearLayout) options.findViewById(R.id.linear6);
+		
+		final EditText input = (EditText) options.findViewById(R.id.edittext1);
+		input.setFocusable(true);
+		input.setFocusableInTouchMode(true);
+		title.setText("Set Background color");
+		message.setText("Type a color hex code (eg: #FFFFFF)");
+		input.setHint("Color code");
+		ok.setText("Ok");
+		cancel.setText("Cancel");
+		title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		message.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		ok.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		cancel.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		input.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			bg.setElevation(d*10);
+			bg.setBackground(SketchUi);
+		}
+		ok.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				try {
+					if (!input.getText().toString().equals("")) {
+						bc_data = input.getText().toString();
+						preview.setBackgroundColor(Color.parseColor(bc_data));
+						preview_option.setBackgroundColor(Color.parseColor(bc_data));
+						textview3.setText(bc_data);
+						bc.dismiss();
+					} else {
+						input.setError("Empty Hex Code");
+					}
+				} catch (Exception e) {
+					input.setError("Invalid Hex Code");
+				}
+			} });
+		cancel.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				bc.dismiss();
+			} });
+		bc.show();
+	}
+	
+	
+	private void _main_dialog () {
+		final AlertDialog main = new AlertDialog.Builder(ThemeActivity.this).create();
+		View options = getLayoutInflater().inflate(R.layout.create_file,null); 
+		main.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		main.setView(options);
+		TextView ok = (TextView) options.findViewById(R.id.textview3);
+		
+		TextView cancel = (TextView) options.findViewById(R.id.textview4);
+		
+		TextView title = (TextView) options.findViewById(R.id.textview1);
+		
+		TextView message = (TextView) options.findViewById(R.id.textview2);
+		
+		LinearLayout bg = (LinearLayout) options.findViewById(R.id.linear1);
+		
+		final LinearLayout linear6 = (LinearLayout) options.findViewById(R.id.linear6);
+		
+		final EditText input = (EditText) options.findViewById(R.id.edittext1);
+		input.setFocusable(true);
+		input.setFocusableInTouchMode(true);
+		title.setText("Set Main color");
+		message.setText("Type a color hex code (eg: #FFFFFF)");
+		input.setHint("Color code");
+		ok.setText("Ok");
+		cancel.setText("Cancel");
+		title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		message.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		ok.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		cancel.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		input.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			bg.setElevation(d*10);
+			bg.setBackground(SketchUi);
+		}
+		ok.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				try {
+					if (!input.getText().toString().equals("")) {
+						main_data = input.getText().toString();
+						textview14.setTextColor(Color.parseColor(main_data));
+						textview5.setText(main_data);
+						main.dismiss();
+					} else {
+						input.setError("Empty Hex Code");
+					}
+				} catch (Exception e) {
+					input.setError("Invalid Hex Code");
+				}
+			} });
+		cancel.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				main.dismiss();
+			} });
+		main.show();
+	}
+	
+	
+	private void _sec_dialog () {
+		final AlertDialog sec = new AlertDialog.Builder(ThemeActivity.this).create();
+		View options = getLayoutInflater().inflate(R.layout.create_file,null); 
+		sec.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		sec.setView(options);
+		TextView ok = (TextView) options.findViewById(R.id.textview3);
+		
+		TextView cancel = (TextView) options.findViewById(R.id.textview4);
+		
+		TextView title = (TextView) options.findViewById(R.id.textview1);
+		
+		TextView message = (TextView) options.findViewById(R.id.textview2);
+		
+		LinearLayout bg = (LinearLayout) options.findViewById(R.id.linear1);
+		
+		final LinearLayout linear6 = (LinearLayout) options.findViewById(R.id.linear6);
+		
+		final EditText input = (EditText) options.findViewById(R.id.edittext1);
+		input.setFocusable(true);
+		input.setFocusableInTouchMode(true);
+		title.setText("Set Secondary color");
+		message.setText("Type a color hex code (eg: #FFFFFF)");
+		input.setHint("Color code");
+		ok.setText("Ok");
+		cancel.setText("Cancel");
+		title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		message.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		ok.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		cancel.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		input.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			bg.setElevation(d*10);
+			bg.setBackground(SketchUi);
+		}
+		ok.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				try {
+					if (!input.getText().toString().equals("")) {
+						sec_data = input.getText().toString();
+						textview15.setTextColor(Color.parseColor(sec_data));
+						textview7.setText(sec_data);
+						sec.dismiss();
+					} else {
+						input.setError("Empty Hex Code");
+					}
+				} catch (Exception e) {
+					input.setError("Invalid Hex Code");
+				}
+			} });
+		cancel.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				sec.dismiss();
+			} });
+		sec.show();
+	}
+	
+	
+	private void _desc_dialog () {
+		final AlertDialog desc = new AlertDialog.Builder(ThemeActivity.this).create();
+		View options = getLayoutInflater().inflate(R.layout.create_file,null); 
+		desc.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		desc.setView(options);
+		TextView ok = (TextView) options.findViewById(R.id.textview3);
+		
+		TextView cancel = (TextView) options.findViewById(R.id.textview4);
+		
+		TextView title = (TextView) options.findViewById(R.id.textview1);
+		
+		TextView message = (TextView) options.findViewById(R.id.textview2);
+		
+		LinearLayout bg = (LinearLayout) options.findViewById(R.id.linear1);
+		
+		final LinearLayout linear6 = (LinearLayout) options.findViewById(R.id.linear6);
+		
+		final EditText input = (EditText) options.findViewById(R.id.edittext1);
+		input.setFocusable(true);
+		input.setFocusableInTouchMode(true);
+		title.setText("Set Description color");
+		message.setText("Type a color hex code (eg: #FFFFFF)");
+		input.setHint("Color code");
+		ok.setText("Ok");
+		cancel.setText("Cancel");
+		title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		message.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		ok.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		cancel.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		input.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			bg.setElevation(d*10);
+			bg.setBackground(SketchUi);
+		}
+		ok.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				try {
+					if (!input.getText().toString().equals("")) {
+						desc_data = input.getText().toString();
+						textview16.setTextColor(Color.parseColor(desc_data));
+						textview9.setText(desc_data);
+						desc.dismiss();
+					} else {
+						SketchwareUtil.showMessage(getApplicationContext(), "Empty Hex Code");
+					}
+				} catch (Exception e) {
+					input.setError("Invalid Hex Code");
+				}
+			} });
+		cancel.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				desc.dismiss();
+			} });
+		desc.show();
 	}
 	
 	

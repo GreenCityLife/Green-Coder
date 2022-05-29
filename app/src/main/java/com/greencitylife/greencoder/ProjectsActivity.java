@@ -353,12 +353,15 @@ public class ProjectsActivity extends AppCompatActivity {
 		
 		LinearLayout bg = (LinearLayout) options.findViewById(R.id.linear1);
 		
+		LinearLayout linear6 = (LinearLayout) options.findViewById(R.id.linear6);
+		
 		final EditText input = (EditText) options.findViewById(R.id.edittext1);
 		input.setFocusable(true);
 		input.setFocusableInTouchMode(true);
 		title.setText("Create Project");
 		message.setText("This is will create a new folder in your project's path");
 		input.setHint("Project's Name");
+		linear6.setVisibility(View.GONE);
 		title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		message.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 		ok.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
