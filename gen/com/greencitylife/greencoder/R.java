@@ -4656,7 +4656,7 @@ containing a value of this type.
         public static int exitUntilCollapsed=0x7f080026;
         public static int expand_activities_button=0x7f08006d;
         public static int expanded_menu=0x7f080085;
-        public static int export_theme=0x7f0800f3;
+        public static int export_theme=0x7f0800f4;
         public static int fill=0x7f080041;
         public static int fill_horizontal=0x7f08004c;
         public static int fill_vertical=0x7f080033;
@@ -4669,6 +4669,7 @@ containing a value of this type.
         public static int git_repo=0x7f0800dc;
         public static int group_divider=0x7f080081;
         public static int help=0x7f0800df;
+        public static int high_color=0x7f0800f0;
         public static int home=0x7f08001f;
         public static int homeAsUp=0x7f080055;
         public static int icon=0x7f080071;
@@ -4680,7 +4681,7 @@ containing a value of this type.
         public static int imageview3=0x7f0800c9;
         public static int imageview4=0x7f0800ca;
         public static int imageview5=0x7f0800cc;
-        public static int import_theme=0x7f0800f4;
+        public static int import_theme=0x7f0800f5;
         public static int info=0x7f0800c1;
         public static int italic=0x7f080051;
         public static int item_touch_helper_previous_elevation=0x7f080000;
@@ -4700,7 +4701,7 @@ containing a value of this type.
         public static int list_item=0x7f080070;
         public static int listview1=0x7f0800ba;
         public static int main_color=0x7f0800ed;
-        public static int masked=0x7f0800f6;
+        public static int masked=0x7f0800f7;
         public static int message=0x7f08009c;
         public static int middle=0x7f08005d;
         public static int mini=0x7f08003b;
@@ -4719,8 +4720,8 @@ containing a value of this type.
         public static int parentPanel=0x7f080074;
         public static int parent_matrix=0x7f080002;
         public static int pin=0x7f08003a;
-        public static int preview=0x7f0800f0;
-        public static int preview_option=0x7f0800f1;
+        public static int preview=0x7f0800f1;
+        public static int preview_option=0x7f0800f2;
         public static int progress_circular=0x7f080020;
         public static int progress_horizontal=0x7f080021;
         public static int project_path=0x7f0800cf;
@@ -4751,7 +4752,7 @@ containing a value of this type.
         public static int second_color=0x7f0800ee;
         public static int select_dialog_listview=0x7f08009b;
         public static int selected=0x7f08002e;
-        public static int set_theme=0x7f0800f2;
+        public static int set_theme=0x7f0800f3;
         public static int shortcut=0x7f080083;
         public static int showCustom=0x7f080056;
         public static int showHome=0x7f080057;
@@ -4827,7 +4828,7 @@ containing a value of this type.
         public static int useLogo=0x7f080059;
         public static int version=0x7f0800e6;
         public static int view_offset_helper=0x7f080012;
-        public static int visible=0x7f0800f5;
+        public static int visible=0x7f0800f6;
         public static int vscroll1=0x7f08009e;
         public static int withText=0x7f080068;
         public static int wrap_content=0x7f08005b;

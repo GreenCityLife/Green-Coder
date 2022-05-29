@@ -1064,7 +1064,7 @@ int id enterAlwaysCollapsed 0x7f080025
 int id exitUntilCollapsed 0x7f080026
 int id expand_activities_button 0x7f08006d
 int id expanded_menu 0x7f080085
-int id export_theme 0x7f0800f3
+int id export_theme 0x7f0800f4
 int id fill 0x7f080041
 int id fill_horizontal 0x7f08004c
 int id fill_vertical 0x7f080033
@@ -1077,6 +1077,7 @@ int id ghost_view 0x7f080001
 int id git_repo 0x7f0800dc
 int id group_divider 0x7f080081
 int id help 0x7f0800df
+int id high_color 0x7f0800f0
 int id home 0x7f08001f
 int id homeAsUp 0x7f080055
 int id icon 0x7f080071
@@ -1088,7 +1089,7 @@ int id imageview2 0x7f0800aa
 int id imageview3 0x7f0800c9
 int id imageview4 0x7f0800ca
 int id imageview5 0x7f0800cc
-int id import_theme 0x7f0800f4
+int id import_theme 0x7f0800f5
 int id info 0x7f0800c1
 int id italic 0x7f080051
 int id item_touch_helper_previous_elevation 0x7f080000
@@ -1108,7 +1109,7 @@ int id listMode 0x7f080052
 int id list_item 0x7f080070
 int id listview1 0x7f0800ba
 int id main_color 0x7f0800ed
-int id masked 0x7f0800f6
+int id masked 0x7f0800f7
 int id message 0x7f08009c
 int id middle 0x7f08005d
 int id mini 0x7f08003b
@@ -1127,8 +1128,8 @@ int id parallax 0x7f080039
 int id parentPanel 0x7f080074
 int id parent_matrix 0x7f080002
 int id pin 0x7f08003a
-int id preview 0x7f0800f0
-int id preview_option 0x7f0800f1
+int id preview 0x7f0800f1
+int id preview_option 0x7f0800f2
 int id progress_circular 0x7f080020
 int id progress_horizontal 0x7f080021
 int id project_path 0x7f0800cf
@@ -1159,7 +1160,7 @@ int id search_voice_btn 0x7f08009a
 int id second_color 0x7f0800ee
 int id select_dialog_listview 0x7f08009b
 int id selected 0x7f08002e
-int id set_theme 0x7f0800f2
+int id set_theme 0x7f0800f3
 int id shortcut 0x7f080083
 int id showCustom 0x7f080056
 int id showHome 0x7f080057
@@ -1235,7 +1236,7 @@ int id up 0x7f080023
 int id useLogo 0x7f080059
 int id version 0x7f0800e6
 int id view_offset_helper 0x7f080012
-int id visible 0x7f0800f5
+int id visible 0x7f0800f6
 int id vscroll1 0x7f08009e
 int id withText 0x7f080068
 int id wrap_content 0x7f08005b

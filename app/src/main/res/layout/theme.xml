@@ -171,6 +171,38 @@
 						android:alpha="0.6"/>
 				</LinearLayout>
 				<LinearLayout
+					android:id="@+id/high_color"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingTop="6dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="6dp"
+					android:orientation="vertical">
+					<TextView
+						android:id="@+id/textview17"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:paddingLeft="8dp"
+						android:paddingTop="8dp"
+						android:paddingRight="8dp"
+						android:text="OnClick Option Color"
+						android:textSize="14sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF"
+						android:alpha="0.8"
+						android:layout_weight="1"/>
+					<TextView
+						android:id="@+id/textview18"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="#E0E0E0"
+						android:textSize="12sp"
+						android:textColor="#9E9E9E"
+						android:alpha="0.6"/>
+				</LinearLayout>
+				<LinearLayout
 					android:id="@+id/linear5"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"

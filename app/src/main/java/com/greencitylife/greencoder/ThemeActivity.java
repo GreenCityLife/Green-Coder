@@ -22,6 +22,8 @@ import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.graphics.Typeface;
 
@@ -34,6 +36,7 @@ public class ThemeActivity extends AppCompatActivity {
 	private String main_data = "";
 	private String sec_data = "";
 	private String desc_data = "";
+	private String high_data = "";
 	
 	private ScrollView vscroll1;
 	private LinearLayout linear1;
@@ -64,6 +67,11 @@ public class ThemeActivity extends AppCompatActivity {
 	private TextView textview10;
 	private TextView textview11;
 	private TextView textview12;
+	private LinearLayout high_color;
+	private TextView textview17;
+	private TextView textview18;
+	
+	private SharedPreferences file;
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -113,6 +121,10 @@ public class ThemeActivity extends AppCompatActivity {
 		textview10 = (TextView) findViewById(R.id.textview10);
 		textview11 = (TextView) findViewById(R.id.textview11);
 		textview12 = (TextView) findViewById(R.id.textview12);
+		high_color = (LinearLayout) findViewById(R.id.high_color);
+		textview17 = (TextView) findViewById(R.id.textview17);
+		textview18 = (TextView) findViewById(R.id.textview18);
+		file = getSharedPreferences("file", Activity.MODE_PRIVATE);
 		
 		bc_color.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -158,10 +170,24 @@ public class ThemeActivity extends AppCompatActivity {
 			}
 		});
 		
+		set_theme.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				
+			}
+		});
+		
 		preview_option.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
 				
+			}
+		});
+		
+		high_color.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				_high_dialog();
 			}
 		});
 	}
@@ -207,6 +233,21 @@ public class ThemeActivity extends AppCompatActivity {
 		setTitle("Themes");
 		is_expanded = false;
 		preview.setVisibility(View.GONE);
+		if (bc_data.equals("")) {
+			bc_data = "#212121";
+		}
+		if (main_data.equals("")) {
+			main_data = "#4CAF50";
+		}
+		if (sec_data.equals("")) {
+			sec_data = "#FFFFFF";
+		}
+		if (desc_data.equals("")) {
+			desc_data = "#9E9E9E";
+		}
+		if (high_data.equals("")) {
+			high_data = "#E0E0E0";
+		}
 		setTheme(android.R.style.Theme_Material);
 	}
 	
@@ -238,6 +279,8 @@ public class ThemeActivity extends AppCompatActivity {
 		textview14.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
 		textview16.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		textview17.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 1);
+		textview18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
 	}
 	
 	
@@ -482,6 +525,64 @@ public class ThemeActivity extends AppCompatActivity {
 				desc.dismiss();
 			} });
 		desc.show();
+	}
+	
+	
+	private void _high_dialog () {
+		final AlertDialog high = new AlertDialog.Builder(ThemeActivity.this).create();
+		View options = getLayoutInflater().inflate(R.layout.create_file,null); 
+		high.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		high.setView(options);
+		TextView ok = (TextView) options.findViewById(R.id.textview3);
+		
+		TextView cancel = (TextView) options.findViewById(R.id.textview4);
+		
+		TextView title = (TextView) options.findViewById(R.id.textview1);
+		
+		TextView message = (TextView) options.findViewById(R.id.textview2);
+		
+		LinearLayout bg = (LinearLayout) options.findViewById(R.id.linear1);
+		
+		final LinearLayout linear6 = (LinearLayout) options.findViewById(R.id.linear6);
+		
+		final EditText input = (EditText) options.findViewById(R.id.edittext1);
+		input.setFocusable(true);
+		input.setFocusableInTouchMode(true);
+		title.setText("Set Highlight color");
+		message.setText("Type a color hex code (eg: #FFFFFF)");
+		input.setHint("Color code");
+		ok.setText("Ok");
+		cancel.setText("Cancel");
+		title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		message.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		ok.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		cancel.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		input.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/en_medium.ttf"), 0);
+		{
+			android.graphics.drawable.GradientDrawable SketchUi = new android.graphics.drawable.GradientDrawable();
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			SketchUi.setColor(0xFF212121);
+			bg.setElevation(d*10);
+			bg.setBackground(SketchUi);
+		}
+		ok.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				try {
+					if (!input.getText().toString().equals("")) {
+						high_data = input.getText().toString();
+						_rippleRoundStroke(preview_option, bc_data, high_data, 0, 0, bc_data);
+						textview18.setText(high_data);
+						high.dismiss();
+					} else {
+						input.setError("Empty Hex Code");
+					}
+				} catch (Exception e) {
+					input.setError("Invalid Hex Code");
+				}
+			} });
+		cancel.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){
+				high.dismiss();
+			} });
+		high.show();
 	}
 	
 	
